@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CncTools;
 use App\Models\rawmaterials;
+use App\Models\ToolFace;
 use App\Models\ToolMaterials;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -131,5 +132,8 @@ class ToolMaterialsController extends Controller
             "status"=>0,
         ]);
         return redirect()->back()->with("edit","تم الغاء التفعيل بنجاح");
+    }
+    public function get_data($id){
+        return ToolMaterials::find($id);
     }
 }

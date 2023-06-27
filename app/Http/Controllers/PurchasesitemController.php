@@ -30,7 +30,7 @@ class PurchasesitemController extends Controller
             $rules = [
                 "material" => "required|numeric",
                 "price" => "required|numeric|min:0.00001|max:9999999",
-                'quantity' => "required|numeric|min:0.0001|max:9999999"
+                'quantity' => "required|integer|min:1|max:9999999"
             ];
             $message = [
                 "product.required" => "يجب ادخال الصنف",

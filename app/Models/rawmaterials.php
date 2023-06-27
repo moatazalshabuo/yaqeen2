@@ -14,8 +14,10 @@ class rawmaterials extends Model
         'material_type',
         'quantity',
         'price',
+        "pace_price",
+        "width",
+        "hiegth",
         'created_by',
-        
     ];
 
 

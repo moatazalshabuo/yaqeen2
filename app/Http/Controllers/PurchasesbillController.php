@@ -155,9 +155,9 @@ class PurchasesbillController extends Controller
                 "receipt" => 1
             ]);
             Helper::ToReceive($id);
-            return response()->json(["stat"=>1], 200);
+            return response()->json(["stat" => 1], 200);
         } else {
-            return response()->json(["stat"=>0], 200);
+            return response()->json(["stat" => 0], 200);
         }
     }
 
@@ -168,12 +168,14 @@ class PurchasesbillController extends Controller
         $bill = Purchasesbill::find($id);
         if ($bill->Residual ==  0) {
             $bill->update([
-            "receipt" => 0
-        ]);
-        Helper::CancelReceive($id);
-        return response()->json(["stat"=>1], 200);
-    } else {
-        return response()->json(["stat"=>0], 200);
+                "receipt" => 0
+            ]);
+            Helper::CancelReceive($id);
+            return response()->json(["stat" => 1], 200);
+        } else {
+            return response()->json(["stat" => 0], 200);
+        }
     }
-    }
+
+
 }

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->string('created_by',30);
-            $table->double("totel",15, 2)->default(0);
-            $table->double("sincere",15, 2)->default(0);
-            $table->double("Residual",15, 2)->default(0);
+            $table->double("totel",15, 4)->default(0);
+            $table->double("sincere",15, 4)->default(0);
+            $table->double("Residual",15, 4)->default(0);
             $table->boolean("status")->default(1);
             $table->integer("custom")->nullable();
             $table->boolean("receipt")->default(1);

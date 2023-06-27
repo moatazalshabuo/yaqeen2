@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             // $table->foreignId("rawid")->constrained("rawmaterials");
             $table->foreignId('purchases_id')->constrained("purchasesbills")->onDelete('cascade');
-            $table->double("quantity",15, 3);
-            $table->double("descont",15, 3)->default(0);
-            $table->double("totel",15, 2)->nullable();
-            $table->double('price',15,2);
+            $table->double("quantity",15, 4);
+            $table->double("descont",15, 4)->default(0);
+            $table->double("totel",15, 4)->nullable();
+            $table->double('price',15,4);
             $table->foreignId("rawmati")->constrained("rawmaterials");
             $table->foreignId("user_id")->constrained("users");
             $table->timestamps();

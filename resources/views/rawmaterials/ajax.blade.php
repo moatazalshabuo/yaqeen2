@@ -1,10 +1,10 @@
 <script>
     $(function() {
-        $("#global-loader").fadeOut("slow");
-        // الدوال اولا تم تاتي العمليات 
+        // $("#global-loader").fadeOut("slow");
+        // الدوال اولا تم تاتي العمليات
         // دالة احضار عناصر المواد الخام وعرضها في الصفحة
 
-        $(".m3").hide()
+
 
         function getitem() {
             $.ajax({
@@ -39,9 +39,10 @@
                     $data = e.responseJSON;
                     $("#error_material_name").text($data.errors.material_name)
                     $("#error_hisba_type").text($data.errors.hisba_type)
-                    $("#error_quantity").text($data.errors.quantity || $data.errors.length + " " +
-                        $data.errors.width)
+                    $("#error_quantity").text($data.errors.quantity)
                     $("#error_price").text($data.errors.price)
+                    $("#error_hiegth").text($data.errors.hiegth)
+                    $("#error_width").text($data.errors.width)
                 }
             })
         }
@@ -71,17 +72,19 @@
                     $("#error_hisba_type_e").text($data.errors.hisba_type)
                     $("#error_quantity_e").text($data.errors.quantity)
                     $("#error_price_e").text($data.errors.price)
+                    // $("#error_quantity_e").text($data.errors.quantity)
+                    // $("#error_price_e").text($data.errors.price)
 
                 }
             })
         }
 
-        // دالة تهيئة رسائل الاخطاء كلها 
+        // دالة تهيئة رسائل الاخطاء كلها
         function reset_add_form() {
             $(".error_add").text("")
         }
 
-        // دالة تهيئة رسائل الاخطاء كلها 
+        // دالة تهيئة رسائل الاخطاء كلها
         function reset_edit_form() {
             $(".error_edit").text("")
         }
@@ -113,18 +116,38 @@
             }
         })
 
+        $("#hisba_type,#hisba_type_e").change(function(){
+            if($(this).val() == 1){
+                $(".hiegth-div, .width-div").show()
+            }else if($(this).val() == 2){
+                $(".hiegth-div, .width-div").hide()
+                $(".hiegth-div").show()
+            }else{
+                $(".hiegth-div, .width-div").hide()
+            }
+        })
         $(document).on("click", ".edit_mate", function() {
             $.ajax({
                 url: "{{ route('materialedit', '') }}/" + $(this).attr('id'),
                 type: "get",
-                // data:{"id":id,"_token": "{{ csrf_token() }}" },
+
                 success: function(res) {
-                    // console.log(res['id']);
-                    $("#material_id").val((res['id']))
+
+                    $("#id_e").val((res['id']))
                     $("#material_name_e").val((res['material_name']))
                     $("#hisba_type_e").val((res['material_type'])).change()
                     $("#quantity_e").val(parseFloat(res['quantity']))
                     $("#price_e").val(parseFloat(res['price']))
+                    if($("#hisba_type_e").val() == 1){
+                        $(".hiegth-div, .width-div").show();
+                        $("#hiegth_e").val(parseFloat(res['hiegth']))
+                        $("#width_e").val(parseFloat(res['width']))
+                    }else if($("#hisba_type_e").val() == 2){
+                        $(".hiegth-div, .width-div").hide()
+                        $(".hiegth-div").show()
+                    }else{
+                        $(".hiegth-div, .width-div").hide()
+                    }
                 }
             })
         })

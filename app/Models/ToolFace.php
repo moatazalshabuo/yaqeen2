@@ -15,6 +15,6 @@ class ToolFace extends Model
         return ToolFace::select("tool_materials.title","tool_materials.price","tool_face.*")
         ->join("product_faces","tool_face.product_faces_id","=","product_faces.id")->
         join("tool_materials","tool_materials.id","=","tool_face.tool_materials_id")
-        ->where("product_faces.product_id",$id)->get();
+        ->where(["product_faces.product_id"=>$id])->get();
     }
 }

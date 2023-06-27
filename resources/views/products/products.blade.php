@@ -258,11 +258,25 @@
                                     <div class="main-content-label mg-b-5 mb-2">
                                         اضافة المواد لوجه المنتج
                                     </div>
-                                    <div class="col-md-12">
-                                        <label>مواد الخام </label>
-                                        <input type="radio" name="checktype" checked value="1" class="checktype">
-                                        <label>عمليات التصنيع </label>
-                                        <input type="radio" name="checktype" value="2" class="checktype">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>مواد الخام </label>
+                                            <input type="radio" name="checktype" checked value="1"
+                                                class="checktype">
+                                            <label>عمليات التصنيع </label>
+                                            <input type="radio" name="checktype" value="2" class="checktype">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="length" placeholder="الطول">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+
+                                                <input type="number" class="form-control" id="width" placeholder="العرض">
+                                            </div>
+                                        </div>
                                     </div>
                                     <form id="form-material-face">
                                         @csrf
@@ -280,8 +294,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6 mg-b-20 mg-lg-b-0">
                                                         <p class="mg-b-10">اختر المواد الخام</p>
-                                                        <select class="form-control" name="material[]"
-                                                            id="materials-item" multiple="multiple">
+                                                        <select class="form-control" name="material[]" multiple id="materials-item">
 
                                                         </select>
                                                         <div class="fme text-danger" id="fme-material"></div>
@@ -338,9 +351,14 @@
         $(function() {
             $("#faces-item").select2({
                 dropdownParent: $('#manage-model'),
-
             })
-            $("#materials-item,#tool-item").select2({
+
+            $("#materials-item").select2({
+                dropdownParent: $('#manage-model'),
+                placeholder: 'اختر المواد',
+                searchInputPlaceholder: 'بحث'
+            })
+            $("#tool-item").select2({
                 dropdownParent: $('#manage-model'),
                 placeholder: 'اختر المواد',
                 searchInputPlaceholder: 'بحث'

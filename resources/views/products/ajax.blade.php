@@ -40,9 +40,14 @@
                             <td>${data.created_by}</td>"
                             <td><button  data-target='.bd-example-modal-lg' data-toggle='modal' class='btn btn-primary manage' data-id='${data.id}'>ادارة</button></td>
                         <td class='d-flex'>
-                        <a class='btn btn-danger ml-1 btn-icon' href="{{ route('products.edit', '') }}/${data.id} " ><i class='mdi mdi-delete'></i></a>
+
                         <button  data-target='#edit-prodect' data-toggle='modal' class='btn btn-info btn-icon edit-product' id='${data.id}'><i class='mdi mdi-transcribe'></i></button>
-                            </td></tr>`
+                        <form action="{{ route('products.destroy', '') }}/${data.id}" method="post">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-danger text-white"><i class="fa fa-trash"></i></button>
+                        </form>
+                        </td></tr>`
                 }
                 $("#myTable").html(html)
 
@@ -65,6 +70,12 @@
 
                 alertify.success('تم الاضافة بنجاح');
                 getitem();
+                GetFacesItem(res.data)
+                GetFacesSelect(res.data)
+                GetProductMterial(res.data)
+                $(".id-product").val(res.data)
+                $(".bd-example-modal-lg").modal("show")
+
             }).catch(function(res) {
                 $("#add-mate .sp").hide()
                 $("#add-mate .text").show()
@@ -508,6 +519,13 @@
                 $("#div-tool").show()
                 $("#div-material").hide()
             }
+        })
+
+        $("#length,#width").keyup(function(){
+
+            var leng = $("#length").val() != ""?$("#length").val():1;
+            var width = $("#width").val() != ""?$("#width").val():1;
+            $("#quantity-face").val(leng * width)
         })
     })
 </script>

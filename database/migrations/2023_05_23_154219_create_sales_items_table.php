@@ -18,8 +18,11 @@ return new class extends Migration
             $table->foreignId('sales_id')->constrained("salesbills")->onDelete('cascade');
             $table->string("descripe",50)->nullable();
             $table->double("quantity",15, 4);
+            $table->integer("count");
             $table->double("descont",15, 4)->default(0);
-            $table->double("totel",15, 3)->nullable();
+            $table->double("totel",15, 4)->nullable();
+            $table->foreignId("user_id")->constrained("users");
+            $table->integer("status")->default(0);
             $table->string("created_by",30);
             $table->timestamps();
         });

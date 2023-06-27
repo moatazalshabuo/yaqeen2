@@ -4,6 +4,13 @@
 <link href="{{URL::asset('assets/plugins/owl-carousel/owl.carousel.css')}}" rel="stylesheet" />
 <!-- Maps css -->
 <link href="{{URL::asset('assets/plugins/jqvmap/jqvmap.min.css')}}" rel="stylesheet">
+<style>
+
+
+
+
+
+</style>
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -34,6 +41,7 @@
 				<!-- /breadcrumb -->
 @endsection
 @section('content')
+
 				<!-- row -->
 				<div class="row row-sm">
 					<div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">

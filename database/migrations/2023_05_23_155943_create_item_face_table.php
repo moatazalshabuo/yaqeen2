@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignId("face_id")->constrained("product_faces")->cascadeOnDelete();
             $table->foreignId("Item_id")->constrained("sales_items")->cascadeOnDelete();
             $table->double("quantity",15,4);
+            $table->double("height",15,4)->nullable();
+            $table->double("width",15,4)->nullable();
+            $table->integer("count");
             $table->double("price",15,4);
             $table->timestamps();
         });

@@ -21,7 +21,7 @@ class ProductFaces extends Model
 
     public static function get_with_cost($id){
         return ProductFaces::select("product_faces.id","product_faces.title","product_faces.price",
-        DB::raw("sum((rawmaterials.price * faces_materials.quantity) ) as coust_material"),
+        DB::raw("sum((rawmaterials.pace_price * faces_materials.quantity) ) as coust_material"),
         DB::raw("sum(tool_materials.price) as coust_tool"))
         ->leftJoin("faces_materials","faces_materials.face_id","=","product_faces.id")->
         leftJoin("rawmaterials","rawmaterials.id","=","faces_materials.material_id")

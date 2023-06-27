@@ -114,7 +114,7 @@
                                         <label>الصنف</label>
                                         <select name="material" class="form-control select2" id="mate">
                                             <option value="" >اختر الصنف</option>
-			
+
                                             @foreach ($mate as $item)
                                                 <option value="{{ $item->id }}">{{ $item->material_name }}</option>
                                             @endforeach
@@ -133,7 +133,7 @@
                                     <div class="col-md-2 "></div>
                                     <div class="col-md-3 col-6">
                                         <label>الكمية</label>
-                                        
+
                                         <input class="form-control" @if ($data->status == 0) disabled @endif
                                             placeholder="الكمية" id="quantity" name="quantity" type="number">
                                         <div class="text-danger" id="q_error"></div>
@@ -320,12 +320,12 @@
             </div>
             <!-- ===================== end ============== -->
         @endsection
-		
+
         @section('js')
 			<script>
 				$(function(){
 					$('.main-toggle').on('click', function() {
-						
+
 					})
 				})
 			</script>

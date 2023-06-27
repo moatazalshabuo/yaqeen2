@@ -1,14 +1,14 @@
 <script>
     $(function() {
 
-       
+
 		$('#bill_id').keyup(function(e){
 			var code = (e.keyCode ? e.keyCode : e.which)
 			if (code==13) {
 				location.replace("{{ route('Purchasesbill','') }}/"+$(this).val())
 			}
 		})
-		// ====================================== 
+		// ======================================
 
 		function get_totel(){
 		$.ajax({
@@ -84,7 +84,7 @@
         }
         //=========================================
 
-       
+
 
 
         // =========================================
@@ -152,7 +152,7 @@
                     $(this).removeAttr("disabled")
                     data = JSON.parse(r)
                     if (data['type'] == 1) {
-                       
+
                         $("#price").val(parseFloat(data['price']))
                         $("#totel").val(parseFloat(data['total']))
                         $("#quantity").val(parseFloat(data['quantity']))
@@ -222,7 +222,7 @@
 
 
         $("#close-bill").click(function() {
-            
+
             $(this).attr("disabled", "disabled")
             $.ajax({
                 url: "{{ route('purchasesbill_save') }}",
@@ -296,12 +296,14 @@
                 location.reload()
             }
         })
+        var count_click = 0
         $("#on").click(function(){
-            $.ajax({
+            if(count_click == 0)
+           $.ajax({
                 url:"{{ route('CancelReceive',$data->id) }} ",
                 type:"get",
                 success:function(res){
-                    
+
                     if(res['stat'] == 1){
                     $(this).toggleClass('on');
                     alertify.success('الفاتورة في حالة غير مستلمة');
@@ -311,17 +313,19 @@
                         'لم تتم العملية!',
                         'لا يمكن التعديل يرجى الغاء الايصال لهذه الفاتورة اولا',
                         'warning'
-                    ) 
+                    )
                 }
             }
             })
+            count_click++;
         })
         $("#off").click(function(){
+            if(count_click == 0)
             $.ajax({
                 url:"{{ route('ToReceive',$data->id) }}",
                 type:"get",
                 success:function(res){
-                   
+
                     if(res['stat'] == 1){
                     $(this).toggleClass('on');
                     alertify.success('الفاتورة في حالة مستلمة');
@@ -331,10 +335,11 @@
                         'لم تتم العملية!',
                         'لا يمكن التعديل يرجى الغاء الايصال لهذه الفاتورة اولا',
                         'warning'
-                    ) 
+                    )
                 }
                 }
             })
+            count_click++;
         })
     })
 

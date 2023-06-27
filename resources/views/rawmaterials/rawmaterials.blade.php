@@ -110,6 +110,7 @@
                                     <th class="border-bottom-0">نوع الكمية</th>
                                     <th class="border-bottom-0">كمية المخزون</th>
                                     <th class="border-bottom-0">السعر</th>
+                                    <th class="border-bottom-0">سعر القطعة</th>
                                     <th>المستخدم</th>
                                     <th class="border-bottom-0">العمليات</th>
 
@@ -153,11 +154,28 @@
                                         <label for="exampleFormControlTextarea1">نوع الكمية</label>
                                         <select name="hisba_type" id="hisba_type" class="form-control">
                                             <option value="">حدد نوع الكمية</option>
-                                            <option value="1">بالمتر</option>
-                                            <option value="2">بالطرف</option>
+                                            <option value="1">متر مربع</option>
+                                            <option value="2">متر</option>
+                                            <option value="3">قطعة</option>
                                         </select>
                                     </div>
                                     <div class="text text-danger error_add" id="error_hisba_type"></div>
+                                </div>
+                                <div class="col-md-6 width-div" style="display: none">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">العرض</label>
+                                        <input type="number" class="form-control m2" id="width" placeholder="طول القطعة" name="width"
+                                            required>
+                                    </div>
+                                    <div class="text text-danger error_add" id="error_width"></div>
+                                </div>
+                                <div class="col-md-6 hiegth-div" style="display: none">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">الطول</label>
+                                        <input type="number" class="form-control m2" id="hiegth" placeholder="طول القطعة" name="hiegth"
+                                            required>
+                                    </div>
+                                    <div class="text text-danger error_add" id="error_hiegth"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -197,7 +215,7 @@
                         <h6 class="modal-title text-white">تعديل </h6><button aria-label="Close" class="close"
                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <form action="{{ route('rawmaterials.store') }}" id="form-edit" method="POST">
+                    <form action="{{ route('materialupdate') }}" id="form-edit" method="POST">
                         @csrf
 
                         <div class="modal-body">
@@ -207,6 +225,8 @@
                                         <label for="exampleInputEmail1">اسم المادة</label>
                                         <input type="text" class="form-control" id="material_name_e"
                                             name="material_name" required>
+                                            <input type="text" class="form-control" id="id_e"
+                                            name="id" required>
                                     </div>
                                     <div class="text text-danger error_edit" id="error_material_name_e"></div>
                                 </div>
@@ -215,13 +235,28 @@
                                         <label for="exampleFormControlTextarea1">نوع الكمية</label>
                                         <select name="hisba_type" id="hisba_type_e" class="form-control">
                                             <option value="">حدد نوع الكمية</option>
-                                            <option value="1">بالمتر</option>
-
-                                            <option value="2">بالطرف</option>
-                                            <input type="hidden" name="id" id="material_id">
+                                            <option value="1">متر مربع</option>
+                                            <option value="2">متر</option>
+                                            <option value="3">قطعة</option>
                                         </select>
                                     </div>
-                                    <div class="text-danger error_edit" id="error_hisba_type_e"></div>
+                                    <div class="text text-danger error_edit" id="error_hisba_type_e"></div>
+                                </div>
+                                <div class="col-md-6 width-div" style="display: none">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">العرض</label>
+                                        <input type="number" class="form-control m2" id="width_e" placeholder="طول القطعة" name="width"
+                                            required>
+                                    </div>
+                                    <div class="text text-danger error_edit" id="error_width_e"></div>
+                                </div>
+                                <div class="col-md-6 hiegth-div" style="display: none">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">الطول</label>
+                                        <input type="number" class="form-control m2" id="hiegth_e" placeholder="طول القطعة" name="hiegth"
+                                            required>
+                                    </div>
+                                    <div class="text text-danger error_edit" id="error_hiegth_e"></div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">

@@ -16,8 +16,11 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('material_name',30);
             $table->integer('material_type');
-            $table->double('quantity',12,3);
-            $table->double('price');
+            $table->double('quantity',12,4);
+            $table->double("hiegth",12,4)->default(1);
+            $table->double("width",12,4)->default(1);
+            $table->double('price',12,4);
+            $table->double('pace_price',12,4);
             $table->string('created_by',30);
             $table->timestamps();
         });

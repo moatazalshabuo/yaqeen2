@@ -19,7 +19,8 @@ return new class extends Migration
             $table->double("sincere",15, 2)->default(0);
             $table->double("Residual",15, 2)->default(0);
             $table->boolean("status")->default(1);
-            // $table->integer("client")->nullable();
+            $table->integer("client")->nullable();
+            $table->integer("type")->default(0);
             $table->timestamps();
         });
     }
