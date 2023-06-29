@@ -24,7 +24,7 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">المواد الخام</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                    ادارة الاصناف</span>
+                    ادارة المواد الخام</span>
             </div>
         </div>
         <div class="d-flex my-xl-auto right-content">
@@ -35,12 +35,12 @@
                 <button type="button" id="refresh" class="btn btn-danger btn-icon ml-2"><i
                         class="mdi mdi-refresh"></i></button>
             </div>
-            @if (Auth::user()->user_type == 1 || Auth::user()->user_type == 0)
+            @can("اضافة مادة خام")
                 <div class="pr-1 mb-3 mb-xl-0">
                     <button type="button" data-effect="effect-scale" data-toggle="modal" data-target="#modaldemo1"
                         class="btn btn-primary ml-2"><i class="mdi mdi-plus"></i> اضافة مادة </button>
                 </div>
-            @endif
+            @endcan
         </div>
     </div>
 @endsection

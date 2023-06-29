@@ -27,9 +27,12 @@
             <div class="pr-1 mb-3 mb-xl-0">
                 <button type="button" class="btn btn-warning  btn-icon ml-2"><i class="mdi mdi-refresh"></i></button>
             </div>
+            @can("اضافة مستخدم")
             <div class="mb-3 mb-xl-0">
                 <a class="btn btn-primary" href="{{ route('users.create') }}">اضافة مستخدم</a>
             </div>
+            @endcan
+
         </div>
     </div>
     <!-- breadcrumb -->
@@ -98,15 +101,20 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
                                         <td>
+                                            @can("تعديل المستخدمين")
                                             <a href="{{ route('users.edit', $item->id) }}"
                                                 class="btn btn-warning text-white"><i class="fa fa-edit"></i></a>
-                                            <button class="btn btn-danger text-white delete"
+
+                                            @endcan
+                                            @can("حذف المستخدمين")
+                                           <button class="btn btn-danger text-white delete"
                                                 data-id="{{ $item->id }}"><i class="fa fa-trash"></i></button>
                                             <form action="{{ route('users.delete', $item->id) }}" method="post"
                                                 id="delete-user-{{ $item->id }}">
                                                 @method('DELETE')
                                                 @csrf
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

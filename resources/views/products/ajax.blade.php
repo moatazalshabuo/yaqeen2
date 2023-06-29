@@ -38,15 +38,24 @@
                     }
                     html += `
                             <td>${data.created_by}</td>"
-                            <td><button  data-target='.bd-example-modal-lg' data-toggle='modal' class='btn btn-primary manage' data-id='${data.id}'>ادارة</button></td>
-                        <td class='d-flex'>
 
-                        <button  data-target='#edit-prodect' data-toggle='modal' class='btn btn-info btn-icon edit-product' id='${data.id}'><i class='mdi mdi-transcribe'></i></button>
+                            <td>
+                                @can("تعديل المنتجات")
+                                <button  data-target='.bd-example-modal-lg' data-toggle='modal' class='btn btn-primary manage' data-id='${data.id}'>ادارة
+                                </button>
+                                @endcan
+                                </td>
+                        <td class='d-flex'>
+                            @can("تعديل المنتجات")
+                            <button  data-target='#edit-prodect' data-toggle='modal' class='btn btn-info btn-icon edit-product' id='${data.id}'><i class='mdi mdi-transcribe'></i></button>
+                            @endcan
+                            @can('حذف المنتجات')
                         <form action="{{ route('products.destroy', '') }}/${data.id}" method="post">
                             @method('DELETE')
                             @csrf
                             <button class="btn btn-danger text-white"><i class="fa fa-trash"></i></button>
                         </form>
+                        @endcan
                         </td></tr>`
                 }
                 $("#myTable").html(html)

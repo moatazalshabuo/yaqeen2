@@ -32,11 +32,13 @@
         <div class="panel panel-default  mb-4">
             <div class="panel-heading1 bg-primary ">
                 <h4 class="panel-title1">
-                    <a class="accordion-toggle @if (!$errors->any())collapsed @endif" data-toggle="collapse" data-parent="#accordion11"
-                        href="#collapseFour1" aria-expanded="false">اضافة اداء<i class="fe fe-arrow-left ml-2"></i></a>
+                    <a class="accordion-toggle @if (!$errors->any()) collapsed @endif" data-toggle="collapse"
+                        data-parent="#accordion11" href="#collapseFour1" aria-expanded="false">اضافة اداء<i
+                            class="fe fe-arrow-left ml-2"></i></a>
                 </h4>
             </div>
-            <div id="collapseFour1" class="panel-collapse collapse  @if ($errors->any()) show @endif" role="tabpanel" aria-expanded="false" style="">
+            <div id="collapseFour1" class="panel-collapse collapse  @if ($errors->any()) show @endif"
+                role="tabpanel" aria-expanded="false" style="">
                 <div class="panel-body border">
                     <div class="card">
                         <div class="card-body">
@@ -44,70 +46,75 @@
                                 اضافة عملية
                             </div>
                             <p class="mg-b-20">الادوات التي يتم العمل بها في معمل cnc تحديد عملياتها على المواد.</p>
-                            <form action="{{ route('toolMaterial.store') }}" method="POST">
-                                @csrf
-                                <div class="row row-sm">
-                                    <div class="col-lg-3 mg-t-20 mg-lg-t-0">
-                                        <div class="input-group">
-                                            <input class="form-control m-1" placeholder="عنوان العملية" value="{{ old('title') }}"
-                                                name="title" type="text">
+                            @can('اضافة cnc')
+                                <form action="{{ route('toolMaterial.store') }}" method="POST">
+                                    @csrf
+                                    <div class="row row-sm">
+                                        <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                            <div class="input-group">
+                                                <input class="form-control m-1" placeholder="عنوان العملية"
+                                                    value="{{ old('title') }}" name="title" type="text">
                                                 <label>للنظام</label>
                                                 <input type="checkbox" name="type" value="1">
-                                        </div><!-- input-group -->
+                                            </div><!-- input-group -->
 
-                                        <div class="text-danger">
-                                            @error('title')
-                                                {{ $message }}
-                                            @enderror
+                                            <div class="text-danger">
+                                                @error('title')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 mg-t-20 mg-lg-t-0">
-                                        <div class="input-group">
-                                            <select class="select2 " name="material">
-                                                <option value="">اختر المادة</option>
-                                                @foreach ($material as $item)
-                                                    <option @selected(old('material') == $item->id) value="{{$item->id}}">{{ $item->material_name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div><!-- input-group -->
+                                        <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                            <div class="input-group">
+                                                <select class="select2 " name="material">
+                                                    <option value="">اختر المادة</option>
+                                                    @foreach ($material as $item)
+                                                        <option @selected(old('material') == $item->id) value="{{ $item->id }}">
+                                                            {{ $item->material_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div><!-- input-group -->
 
-                                        <div class="text-danger">
-                                            @error('material')
-                                                {{ $message }}
-                                            @enderror
+                                            <div class="text-danger">
+                                                @error('material')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 mg-t-20 mg-lg-t-0">
-                                        <div class="input-group">
-                                            <select class="select2 " name="tool">
-                                                <option value="">اختر الاداء</option>
-                                                @foreach ($tools as $item)
-                                                    <option @selected(old('tool') == $item->id) value="{{$item->id}}">{{ $item->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div><!-- input-group -->
+                                        <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                            <div class="input-group">
+                                                <select class="select2 " name="tool">
+                                                    <option value="">اختر الاداء</option>
+                                                    @foreach ($tools as $item)
+                                                        <option @selected(old('tool') == $item->id) value="{{ $item->id }}">
+                                                            {{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div><!-- input-group -->
 
-                                        <div class="text-danger">
-                                            @error('tools')
-                                                {{ $message }}
-                                            @enderror
+                                            <div class="text-danger">
+                                                @error('tools')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="سعر المتر / القطعة"
+                                                    value="{{ old('price') }}" name="price" type="number" step="any">
+                                                <span class="input-group-btn"><button class="btn btn-primary"
+                                                        type="submit"><span class="input-group-btn"><i
+                                                                class="fa fa-plus"></i></span></button></span>
+                                            </div><!-- input-group -->
+                                            <div class="text-danger">
+                                                @error('price')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 mg-t-20 mg-lg-t-0">
-                                        <div class="input-group">
-                                            <input class="form-control" placeholder="سعر المتر / القطعة" value="{{ old('price') }}"
-                                                name="price" type="number" step="any"> <span class="input-group-btn"><button
-                                                    class="btn btn-primary" type="submit"><span class="input-group-btn"><i
-                                                            class="fa fa-plus"></i></span></button></span>
-                                        </div><!-- input-group -->
-                                        <div class="text-danger">
-                                            @error('price')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -172,7 +179,7 @@
                                 </tr>
                             </thead>
                             <tbody id="myTable">
-                                 @php
+                                @php
                                     $i = 1;
                                 @endphp
                                 @foreach ($toolMaterials as $item)
@@ -181,11 +188,13 @@
                                         <td>{{ $item->title }}</td>
                                         <td>{{ $item->material_name }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td>@if ($item->type == 1)
-                                            عمليات النظام
+                                        <td>
+                                            @if ($item->type == 1)
+                                                عمليات النظام
                                             @else
-                                            عمليات خارجية
-                                        @endif</td>
+                                                عمليات خارجية
+                                            @endif
+                                        </td>
                                         <td>{{ $item->created_by }}</td>
                                         <td>
                                             @if ($item->status)
@@ -195,18 +204,25 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <form action="{{ route('toolMaterial.destroy', $item->id) }}" method="POST" style="display: inline">
+                                            @can('حذف cnc')
+                                            <form action="{{ route('toolMaterial.destroy', $item->id) }}" method="POST"
+                                                style="display: inline">
                                                 {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
                                                 <button class="btn btn-danger btn-sm">حذف</button>
                                             </form>
+                                            @endcan
+                                            @can("تعديل cnc")
                                             <button class="btn btn-warning btn-sm edit" data-id="{{ $item->id }}"
                                                 data-effect="effect-scale" data-toggle="modal"
                                                 data-target="#modaldemo1">تعديل</button>
+                                            @endcan
                                             @if ($item->status)
-                                                <a href="{{ route('tool.material.unactive',$item->id) }}" class="btn btn-primary btn-sm">الغاء تفعيل</a>
+                                                <a href="{{ route('tool.material.unactive', $item->id) }}"
+                                                    class="btn btn-primary btn-sm">الغاء تفعيل</a>
                                             @else
-                                                <a href="{{ route('tool.material.active',$item->id) }}" class="btn btn-success btn-sm">تفعيل</a>
+                                                <a href="{{ route('tool.material.active', $item->id) }}"
+                                                    class="btn btn-success btn-sm">تفعيل</a>
                                             @endif
                                         </td>
                                     </tr>
@@ -250,7 +266,7 @@
                                     <select class="" id="material" name="material">
                                         <option value="">اختر المادة</option>
                                         @foreach ($material as $item)
-                                            <option value="{{$item->id}}">{{ $item->material_name }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->material_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -262,7 +278,7 @@
                                     <select class="" id="tool" name="tool">
                                         <option value="">اختر الاداء</option>
                                         @foreach ($tools as $item)
-                                            <option value="{{$item->id}}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -270,7 +286,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <input class="form-control" placeholder="سعر المتر / القطعة" id="price" name="price" type="number" step="any">
+                                    <input class="form-control" placeholder="سعر المتر / القطعة" id="price"
+                                        name="price" type="number" step="any">
                                 </div>
                                 <div class="col-md-12 text-danger error" id="price-error"></div>
                             </div>
@@ -294,7 +311,6 @@
     <script src="{{ URL::asset('assets/js/accordion.js') }}"></script>
 
     <script>
-
         $(function() {
 
             $("#material,#tool").select2({
@@ -302,8 +318,8 @@
 
             })
             $("#form-edit").submit(function(e) {
-            e.preventDefault();
-        });
+                e.preventDefault();
+            });
             $(".edit").click(function() {
                 $.ajax({
                     url: "{{ route('toolMaterial.show', '') }}/" + $(this).data('id'),
@@ -314,17 +330,26 @@
                         $("#price").val(res.price)
                         $("#material").val(res.material).change()
                         $("#tool").val(res.tool).change()
-                        if(res.type==1)
-                        $("#type1").attr('checked','checked')
+                        if (res.type == 1)
+                            $("#type1").attr('checked', 'checked')
                         else
-                        $("#type2").attr('checked','checked')
+                            $("#type2").attr('checked', 'checked')
 
+                    }
+                }).catch((res)=>{
+                    if(res.response.status == 403){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'للاسف...',
+                            text: 'غير مصرح لك للقيام بالعملية',
+                            })
                     }
                 })
             })
-        function update(){
-            $(".error").text("")
-            $.ajax({
+
+            function update() {
+                $(".error").text("")
+                $.ajax({
                     url: "{{ route('tool.material.edit') }}",
                     type: "post",
                     data: $("#form-edit").serialize(),
@@ -334,12 +359,19 @@
                             ' حفظ !',
                             'تمت العملية بنجاح',
                             'success'
-                        ).then((resutl)=>{
+                        ).then((resutl) => {
                             location.reload()
                         })
                     },
 
                     error: function(res) {
+                        if(res.response.status == 403){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'للاسف...',
+                            text: 'غير مصرح لك للقيام بالعملية',
+                            })
+                    }
                         data = res.responseJSON.errors
                         $("#tool-error").text(`${data.tool}`)
                         $("#material-error").text(`${data.material}`)
@@ -347,7 +379,7 @@
                         $("#title-error").text(`${data.title}`)
                     }
                 })
-        }
+            }
             $("#update").click(function() {
                 update()
             })

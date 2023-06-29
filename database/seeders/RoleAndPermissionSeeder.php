@@ -35,5 +35,6 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name'=>"فواتير المشتريات"]);
         Permission::create(['name'=>"التنقل بين كل فواتير المشتريات"]);
         Permission::create(['name'=>"اعطاء امر عمل"]);
+        Permission::create(['name'=>"محاسب"]);
     }
 }

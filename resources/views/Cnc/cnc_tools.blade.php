@@ -44,24 +44,26 @@
                                 اضافة اداء
                             </div>
                             <p class="mg-b-20">الادوات التي يتم العمل بها في معمل cnc.</p>
-                            <form action="{{ route('cnc-tools.store') }}" method="POST">
-                                @csrf
-                                <div class="row row-sm">
-                                    <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                                        <div class="input-group">
-                                            <input class="form-control" placeholder="اسم الاداء" value="{{ old('name') }}"
-                                                name="name" type="text"> <span class="input-group-btn"><button
-                                                    class="btn btn-primary" type="submit"><span class="input-group-btn"><i
-                                                            class="fa fa-plus"></i></span></button></span>
-                                        </div><!-- input-group -->
-                                        <div class="text-danger">
-                                            @error('name')
-                                                {{ $message }}
-                                            @enderror
+                            @can('اضافة cnc')
+                                <form action="{{ route('cnc-tools.store') }}" method="POST">
+                                    @csrf
+                                    <div class="row row-sm">
+                                        <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                                            <div class="input-group">
+                                                <input class="form-control" placeholder="اسم الاداء" value="{{ old('name') }}"
+                                                    name="name" type="text"> <span class="input-group-btn"><button
+                                                        class="btn btn-primary" type="submit"><span class="input-group-btn"><i
+                                                                class="fa fa-plus"></i></span></button></span>
+                                            </div><!-- input-group -->
+                                            <div class="text-danger">
+                                                @error('name')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -139,19 +141,29 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <form action="{{ route('cnc-tools.destroy', $item->id) }}" method="POST" style="display: inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button class="btn btn-danger">حذف</button>
-                                            </form>
-                                            <button class="btn btn-warning edit" data-id="{{ $item->id }}"
-                                                data-effect="effect-scale" data-toggle="modal"
-                                                data-target="#modaldemo1">تعديل</button>
-                                            @if ($item->status)
-                                                <a href="{{ route('unactive',$item->id) }}" class="btn btn-primary">الغاء تفعيل</a>
-                                            @else
-                                                <a href="{{ route('active',$item->id) }}" class="btn btn-success">تفعيل</a>
-                                            @endif
+                                            @can('حذف cnc')
+                                                <form action="{{ route('cnc-tools.destroy', $item->id) }}" method="POST"
+                                                    style="display: inline">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+                                                    <button class="btn btn-danger">حذف</button>
+                                                </form>
+                                            @endcan
+                                            @can('تعديل cnc')
+                                                <button class="btn btn-warning edit" data-id="{{ $item->id }}"
+                                                    data-effect="effect-scale" data-toggle="modal"
+                                                    data-target="#modaldemo1">تعديل</button>
+                                            @endcan
+                                            @can('عرض cnc')
+                                                @if ($item->status)
+                                                    <a href="{{ route('unactive', $item->id) }}"
+                                                        class="btn btn-primary">الغاء
+                                                        تفعيل</a>
+                                                @else
+                                                    <a href="{{ route('active', $item->id) }}"
+                                                        class="btn btn-success">تفعيل</a>
+                                                @endif
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
@@ -200,8 +212,8 @@
     <script>
         $(function() {
             $("#form-edit").submit(function(e) {
-            e.preventDefault();
-        });
+                e.preventDefault();
+            });
             $(".edit").click(function() {
                 $.ajax({
                     url: "{{ route('cnc-tools.show', '') }}/" + $(this).data('id'),
@@ -212,8 +224,9 @@
                     }
                 })
             })
-        function update(){
-            $.ajax({
+
+            function update() {
+                $.ajax({
                     url: "{{ route('tool.edit') }}",
                     type: "post",
                     data: $("#form-edit").serialize(),
@@ -223,7 +236,7 @@
                             ' حفظ !',
                             'تمت العملية بنجاح',
                             'success'
-                        ).then((resutl)=>{
+                        ).then((resutl) => {
                             location.reload()
                         })
                     },
@@ -231,7 +244,7 @@
 
                     }
                 })
-        }
+            }
             $("#update").click(function() {
                 update()
             })

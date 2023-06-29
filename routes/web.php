@@ -30,16 +30,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware("auth");
 
 
-Route::resource('rawmaterials',RawmaterialsController::class);
+Route::resource('rawmaterials',RawmaterialsController::class)->middleware(['can:عرض المواد الخام']);
 
-Route::resource('products',ProductController::class);
+Route::resource('products',ProductController::class)->middleware(["can:عرض المنتجات"]);
 
-Route::resource("cnc-tools",CncToolsController::class);
+Route::resource("cnc-tools",CncToolsController::class)->middleware(["can:عرض cnc"]);
 
-Route::resource("toolMaterial",ToolMaterialsController::class);
+Route::resource("toolMaterial",ToolMaterialsController::class)->middleware(["can:عرض cnc"]);
 
 // Route::resource("salesbill",SalesbillController::class);
 

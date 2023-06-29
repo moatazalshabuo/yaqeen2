@@ -14,7 +14,7 @@ class PurchasesbillController extends Controller
     public function index($id = "")
     {
 
-        if (Auth::user()->user_type != 1) {
+        if (Auth::user()->type != 1) {
 
             $wher = (!empty($id) && !empty(Purchasesbill::find($id))) ? ["created_by" => Auth::user()->name, "purchasesbills.id" => $id] : ["created_by" => Auth::id()];
             $pages = Purchasesbill::where("created_by", Auth::id())->get();
