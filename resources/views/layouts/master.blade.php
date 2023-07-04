@@ -149,25 +149,17 @@
                     client_select()
 
                     function select_client(id, bill = 0) {
-                        $.ajax({
-                            url: "{{ route('client_pay', '') }}/" + id,
-                            data: "bill_id=" + bill,
-                            type: "get",
-                            success: function(res) {
-                                if (res != "") {
-                                    data = JSON.parse(res)
-
-                                    $("#sincere_pay").val(parseFloat(data['sincere']))
-                                    $("#Residual_pay").val(parseFloat(data['Residual']))
-                                    $("#total_pay").val(parseFloat(data['total']))
-                                    $("#bill_num_pay").html(data['salesbill'])
+                        axios.get("{{ route('client_pay', '') }}/" + id).then((res)=>{
+                            if (res != "") {
+                                console.log(res)
+                                    var data = res.data
+                                    $("#sincere_pay").val(parseFloat(data.sincere))
+                                    $("#Residual_pay").val(parseFloat(data.Residual))
+                                    $("#total_pay").val(parseFloat(data.total))
+                                    $("#bill_num_pay").html(data.salesbill)
                                 } else {
                                     reset_form_pay()
                                 }
-                            },
-                            error: function(res) {
-
-                            }
                         })
                     }
 

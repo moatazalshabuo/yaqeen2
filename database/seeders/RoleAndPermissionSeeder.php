@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 
 class RoleAndPermissionSeeder extends Seeder
@@ -36,5 +38,19 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name'=>"التنقل بين كل فواتير المشتريات"]);
         Permission::create(['name'=>"اعطاء امر عمل"]);
         Permission::create(['name'=>"محاسب"]);
+
+        $user = User::create([
+            'name'=>"admin",
+            "email"=>"admin@gmail.com",
+            "password"=>Hash::make(12345678),
+            "type"=>1
+        ]);
+
+        $permission = Permission::all();
+
+        foreach ($permission as $value) {
+            $user->givePermissionTo($value);
+        }
+
     }
 }
