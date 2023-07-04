@@ -40,78 +40,78 @@
             @yield('page-header')
             @yield('content')
 
-             <!-- Modal: modalCart -->
-             <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-             <div class="modal-dialog" role="document">
-                 <div class="modal-content">
-                     <!--Header-->
-                     <div class="modal-header">
-                         <h4 class="modal-title" id="myModalLabel">ايصال القبض</h4>
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">×</span>
-                         </button>
-                     </div>
-                     <!--Body-->
-                     <div class="modal-body">
-                         <div class="text-danger massege"></div>
-                         <div class="row">
-                             <div class="col-md-12">
-                                 <div class="form-group">
-                                     <label>اختر الزبون</label>
-                                     <select class="form-control pay_select" name="client" id="client_select_pay">
-                                         <option value="">....</option>
-                                     </select>
-                                     <p class="text-danger" id=client_pay_err></p>
-                                 </div>
-                             </div>
-                             {{-- <div class="col-md-6">
+            <!-- Modal: modalCart -->
+            <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <!--Header-->
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">ايصال القبض</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <!--Body-->
+                        <div class="modal-body">
+                            <div class="text-danger massege"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>اختر الزبون</label>
+                                        <select class="form-control pay_select" name="client" id="client_select_pay">
+                                            <option value="">....</option>
+                                        </select>
+                                        <p class="text-danger" id=client_pay_err></p>
+                                    </div>
+                                </div>
+                                {{-- <div class="col-md-6">
                  <label> الفاتورة (اختياري)</label>
                  <select class="form-control pay_select" name="bills_num" id="bill_num_pay">
                      <option value="">....</option>
                  </select>
                  <p class="text-danger" id=bills_num_pay_err></p>
                  </div> --}}
-                         </div>
-                         <div class="row">
-                             <div class="col-md-6">
-                                 <div class="form-group">
-                                     <label>قيمة السداد</label>
-                                     <input type="number" name="price" id="price_pay" class="form-control">
-                                     <p class="text-danger" id=price_pay_err></p>
-                                 </div>
-                                 ملاحظات(اختياري)
-                                 <textarea rows="6" cols="6" class="form-control" name="descrip" placeholder="ملاحظات ....">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>قيمة السداد</label>
+                                        <input type="number" name="price" id="price_pay" class="form-control">
+                                        <p class="text-danger" id=price_pay_err></p>
+                                    </div>
+                                    ملاحظات(اختياري)
+                                    <textarea rows="6" cols="6" class="form-control" name="descrip" placeholder="ملاحظات ....">
                      </textarea>
-                                 <small>{{ Auth::user()->name }}</small>
-                             </div>
-                             <div class="col-md-6">
-                                 <div class="form-group">
-                                     <label>المتبقي</label>
-                                     <input type="number" disabled id="Residual_pay" class="form-control">
-                                 </div>
-                                 <div class="form-group">
-                                     <label>الخالص</label>
-                                     <input type="number" disabled id="sincere_pay" class="form-control">
-                                 </div>
-                                 <div class="form-group">
-                                     <label>الاجمالي</label>
-                                     <input type="number" disabled id="total_pay" class="form-control">
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                     <!--Footer-->
-                     <div class="modal-footer">
-                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">اغلاق</button>
-                         <button class="btn btn-primary" id="pay"><span
-                                 class="spinner-border spinner-border-sm sp" style="display: none"></span><span
-                                 class="text">حفظ</span></button>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         <!-- Modal: modalCart -->
+                                    <small>{{ Auth::user()->name }}</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>المتبقي</label>
+                                        <input type="number" disabled id="Residual_pay" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>الخالص</label>
+                                        <input type="number" disabled id="sincere_pay" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>الاجمالي</label>
+                                        <input type="number" disabled id="total_pay" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">اغلاق</button>
+                            <button class="btn btn-primary" id="pay"><span
+                                    class="spinner-border spinner-border-sm sp" style="display: none"></span><span
+                                    class="text">حفظ</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal: modalCart -->
 
             @include('layouts.sidebar')
             @include('layouts.models')

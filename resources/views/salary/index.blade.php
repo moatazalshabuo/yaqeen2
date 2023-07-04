@@ -288,7 +288,7 @@
             $("#save_salary").click(function() {
                 $(".error").text("")
                 moveButton($("#save_salary .sp"), $("#save_salary .text"))
-                axios.post("/salary/save", $("#form-salary").serialize()).then((res) => {
+                axios.post("{{route('salary.save')}}", $("#form-salary").serialize()).then((res) => {
                     if (res.data.error == 0) {
                         location.reload()
 
@@ -307,7 +307,7 @@
 
             $(".edit").click(function(){
                 var id = $(this).data('id')
-                axios.get(`/salary/get/${id}`).then((res)=>{
+                axios.get(`{{route('salary.get','')}}/${id}`).then((res)=>{
                     data = res.data
                     $("#user_id,#user_id_h").val(data.user_id)
                     $("#salary").val((data.type_salary == 1)?data.rate:data.salary)
@@ -320,7 +320,7 @@
             $("#update-salary").click(function(){
                 $(".error").text("")
                 moveButton($("#update_salary .sp"), $("#update_salary .text"))
-                axios.post('/salary/update',$("#form-salary-edit").serialize()).then((res)=>{
+                axios.post("{{route('salary.update')}}",$("#form-salary-edit").serialize()).then((res)=>{
                     location.reload()
                 }).catch((res)=>{
                     console.log(res)

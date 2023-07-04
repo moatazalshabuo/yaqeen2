@@ -247,7 +247,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="pull">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-demo">
@@ -357,7 +356,7 @@
 
             $("#user_id-2").change(function() {
                 var id = $(this).val()
-                axios.get(`/salary/get/${id}`).then((res) => {
+                axios.get(`{{route('salary.get','')}}/${id}`).then((res) => {
                     data = res.data
 
                     $("#on-him-2").val(data.dept)
@@ -367,7 +366,7 @@
             $("#save-dept").click(function() {
                 $(".error").text("")
                 moveButton($("#save-dept .sp"), $("#save-dept .text"))
-                axios.post('/salary/dept', $("#form-salary-pull").serialize()).then((res) => {
+                axios.post("{{route('salary.dept')}}", $("#form-salary-pull").serialize()).then((res) => {
                     location.reload()
                 }).catch((res) => {
                     console.log(res)
@@ -380,7 +379,7 @@
 
             $("#user_id-1").change(function() {
                 var id = $(this).val()
-                axios.get(`/salary/get/${id}`).then((res) => {
+                axios.get(`{{route('salary.get','')}}/${id}`).then((res) => {
                     data = res.data
 
                     $("#dept-1").val(data.dept)
@@ -398,7 +397,7 @@
 
             $("#save_salary").click(function() {
                 moveButton($("#save_salary .sp"), $("#save_salary .text"))
-                axios.post("/salary/save/salary", $("#form-salary").serialize()).then((res) => {
+                axios.post("{{route('save.salary')}}", $("#form-salary").serialize()).then((res) => {
                     stopButton($("#save_salary .sp"), $("#save_salary .text"))
                     location.reload()
                 }).catch((res) => {

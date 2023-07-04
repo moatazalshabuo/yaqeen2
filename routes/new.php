@@ -255,10 +255,10 @@ Route::controller(SalaryController::class)->group(function () {
             Route::get("/", "index")->name("salary");
             Route::post("save", "save_salary")->name("salary.save");
             Route::get("get/{id}", "getData")->name("salary.get");
-            Route::post("update", "updata_salary");
+            Route::post("update", "updata_salary")->name("salary.update");
             Route::get("mount/", "salary_index")->name("salary.mount");
-            Route::post("dept", "save_dept");
-            Route::post("save/salary", "Salary_save");
+            Route::post("dept", "save_dept")->name("salary.dept");
+            Route::post("save/salary", "Salary_save")->name("save.salary");
             Route::get("delete/{id}", "delete")->name("delete.salary");
             Route::get("delete-dept/{id}", "deleteDept")->name("delete.depts");
         });

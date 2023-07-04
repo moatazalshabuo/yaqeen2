@@ -368,7 +368,7 @@
         })
 
         $("#cnc-tools").change(function(){
-            axios.get(`/tools-material/cnc-tool-data/${$(this).val()}`).then(function(res){
+            axios.get(`{{route('cnc.tool.data','')}}/${$(this).val()}`).then(function(res){
                 $("#price_cnc").val(res.data.price)
             })
         })
@@ -377,9 +377,9 @@
         })
 
         $("#start-work").click(function(){
-            axios.get(`/Salesbill/check-close/${$('#salesbill').val()}`).then((res)=>{
+            axios.get(`{{ route('salesbill.check','') }}/${$('#salesbill').val()}`).then((res)=>{
                 if(res.data == 2){
-                    location.replace(`/start-work/work/${$('#salesbill').val()}`)
+                    location.replace(`{{route('startwork.index','')}}/${$('#salesbill').val()}`)
                 }else{
                     Swal.fire("يجب اغلاق الفاتورة اولا ");
                 }
