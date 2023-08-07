@@ -20,9 +20,13 @@ class rawmaterials extends Model
         'created_by',
     ];
 
+    public function quantity(){
+        return $this->quantity * $this->hiegth * $this->width;
+    }
 
     // public function section()
     // {
     //     return $this->belongsTo('App\Models\sections');
     // }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\ItemTool;
+use App\Models\ProductFaces;
 use App\Models\rawmaterials;
 use App\Models\Purchasesbill;
 use App\Models\Purchasesitem;
@@ -54,7 +55,7 @@ class Helper
         $raw->quantity = ($raw->quantity + $quantity);
         if ($price != null) {
             $raw->price = $price;
-            $pace_price = ($raw->material_type != 3) ? $price / ($raw->hiegth * $raw->width) : $price;
+            $pace_price =  $price / ($raw->hiegth * $raw->width);
             $raw->pace_price = $pace_price;
         }
         $raw->update();
@@ -145,13 +146,37 @@ class Helper
     {
         $salary = SalaryUser::where("user_id", $id)->first();
 
+        $coustsFaces = ProductFaces::get_with_cost($price->prodid);
+
+        $coust = 0;
+
+        foreach ($coustsFaces as $cos) :
+
+            $coust += ($cos->coust_material + $cos->coust_tool);
+
+        endforeach;
+
         if (isset($salary->id)) {
+            // ي حالة كانت نوع الراتب نسبة من الربح
             if ($salary->type_salary == 1) {
-                $sal = ($salary->rate / 100) *  $price;
+
+                $sal = ($salary->rate / 100) *  ($price->totel - ($coust * $price->quantity));
+
                 $salary->totel_salary = $salary->totel_salary + $sal;
+            // ي حالة كانت نوع الراتب نسبة من الاجمالي
+            } elseif ($salary->type_salary == 3) {
+
+                $sal = ($salary->rate / 100) *  ($price->totel);
+
+                $salary->totel_salary = $salary->totel_salary + $sal;
+
             }
+
             $salary->count_finish_work = $salary->count_finish_work + 1;
+
         }
+
         $salary->update();
+
     }
 }

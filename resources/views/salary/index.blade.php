@@ -113,11 +113,13 @@
                                                 {{ $item->salary }}$
                                             @endif
                                         </td>
-                                        <td>@if ($item->type_salary == 1)
-                                            {{ $item->totel_salary }}
-                                        @else
-                                            {{ $item->salary }}
-                                        @endif</td>
+                                        <td>
+                                            @if ($item->type_salary == 1)
+                                                {{ $item->totel_salary }}
+                                            @else
+                                                {{ $item->salary }}
+                                            @endif
+                                        </td>
                                         <td>{{ $item->dept }}</td>
                                         <td><button class="btn btn-danger edit" data-id="{{ $item->id }}"><i
                                                     class="fa fa-edit"></i></button></td>
@@ -141,8 +143,10 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">اضافة بيانات راتب موظف</h6><button aria-label="Close" class="close"
-                        data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title">اضافة بيانات راتب موظف</h6>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="text-danger error" id="error"></div>
@@ -164,8 +168,10 @@
                                     <label for="">نوع الراتب</label>
                                     <select class="form-control" name="type_salary">
                                         <option value="">اختر نوع الراتب</option>
-                                        <option value="1">النسبة</option>
                                         <option value="2">راتب محدد</option>
+                                        <option value="1">نسبه من ربح العمل</option>
+                                        <option value="3">نسبه اجمالي العمل </option>
+
                                     </select>
                                 </div>
                                 <div class="text-danger error" id="error-type_salary"></div>
@@ -192,7 +198,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="edit">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-demo">
@@ -222,8 +227,9 @@
                                     <label for="">نوع الراتب</label>
                                     <select class="form-control" name="type_salary" id="type_salary">
                                         <option value="">اختر نوع الراتب</option>
-                                        <option value="1">النسبة</option>
                                         <option value="2">راتب محدد</option>
+                                        <option value="1">نسبه من ربح العمل</option>
+                                        <option value="3">نسبه اجمالي العمل </option>
                                     </select>
                                 </div>
                                 <div class="text-danger error" id="error-type_salary-edit"></div>
@@ -273,9 +279,10 @@
     <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
     <script>
         $(function() {
-            $("#form-salary-edit,#form-salary").submit(function(e){
+            $("#form-salary-edit,#form-salary").submit(function(e) {
                 e.preventDefault()
             })
+
             function moveButton(selector1, selector2) {
                 selector1.show()
                 selector2.hide()
@@ -288,7 +295,7 @@
             $("#save_salary").click(function() {
                 $(".error").text("")
                 moveButton($("#save_salary .sp"), $("#save_salary .text"))
-                axios.post("{{route('salary.save')}}", $("#form-salary").serialize()).then((res) => {
+                axios.post("{{ route('salary.save') }}", $("#form-salary").serialize()).then((res) => {
                     if (res.data.error == 0) {
                         location.reload()
 
@@ -305,24 +312,25 @@
                 })
             })
 
-            $(".edit").click(function(){
+            $(".edit").click(function() {
                 var id = $(this).data('id')
-                axios.get(`{{route('salary.get','')}}/${id}`).then((res)=>{
+                axios.get(`{{ route('salary.get', '') }}/${id}`).then((res) => {
                     data = res.data
                     $("#user_id,#user_id_h").val(data.user_id)
-                    $("#salary").val((data.type_salary == 1)?data.rate:data.salary)
+                    $("#salary").val((data.type_salary == 1) ? data.rate : data.salary)
                     $("#type_salary").val(data.type_salary)
                     $("#id").val(data.id)
                     $("#edit").modal("show")
                 })
             })
 
-            $("#update-salary").click(function(){
+            $("#update-salary").click(function() {
                 $(".error").text("")
                 moveButton($("#update_salary .sp"), $("#update_salary .text"))
-                axios.post("{{route('salary.update')}}",$("#form-salary-edit").serialize()).then((res)=>{
+                axios.post("{{ route('salary.update') }}", $("#form-salary-edit").serialize()).then((
+                    res) => {
                     location.reload()
-                }).catch((res)=>{
+                }).catch((res) => {
                     console.log(res)
                     stopButton($("#update-salary .sp"), $("#update-salary .text"))
                     var data = res.response.data.errors

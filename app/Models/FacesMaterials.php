@@ -11,6 +11,9 @@ class FacesMaterials extends Model
     protected $table = "faces_materials";
     protected $fillable = ["id","face_id","material_id","quantity"];
 
+    public function rawmaterial(){
+        return $this->belongsTo(rawmaterials::class);
+    }
     public static function Material($id){
         return ProductFaces::select("rawmaterials.material_name","faces_materials.*","rawmaterials.pace_price as price")
         ->join("faces_materials","faces_materials.face_id","=","product_faces.id")->

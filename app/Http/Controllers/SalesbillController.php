@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\FacesMaterials;
 use App\Models\Product;
 use App\Models\ProductFaces;
+use App\Models\rawmaterials;
 use App\Models\Salesbill;
 use App\Models\SalesItem;
 use App\Models\SalesItemFace;
@@ -132,149 +133,150 @@ class SalesbillController extends Controller
         $sales = Salesbill::find($request->sales_id);
         if ($sales->status == 1) {
 
-        $face_item = ProductFaces::where("product_id", $request->product_id)->get();
-        $_product = Product::find($request->product_id);
-        $roles = array();
-        $massege = array();
-        if (count($face_item) > 0) {
-            foreach ($face_item as $val) {
-                if ($_product->type == 2) {
-                    $roles['count' . $val['id']] = "required";
-                    $roles['face_material' . $val['id']] = "required";
-                    $roles['height' . $val['id']] = "required|numeric|min:0|max:9999999";
-                    $roles['width' . $val['id']] = "required|numeric|min:0|max:9999999";
-                    $massege['count' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
-                    $massege['face_material' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
-                    $massege['height' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
-                    $massege['width' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
-                } elseif ($_product->type == 0) {
-                    $roles['quantity' . $val['id']] = "required|min:0|max:9999999";
-                    $massege['quantity' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
-                }
-                $roles['price' . $val['id']] = "required|numeric|min:0|max:9999999";
-                $massege['price' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
-            }
-
-            $roles['count'] = "required|integer|numeric|min:1|max:9999999";
-            $massege["count.required"] = "لايمكن ترك هذا الحقل فارغ";
-            $request->validate($roles, $massege);
-            $errors = array();
-            foreach ($face_item as $val) {
-                if ($_product->type == 2)
-                    $_quantity = $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
-                elseif ($_product->type == 0)
-                    $_quantity = $_POST['quantity' . $val["id"]] * $request->count;
-                elseif ($_product->type == 1)
-                    $_quantity = $request->count;
-                foreach ($_POST['face_material' . $val['id']] as $item) {
-                    $_material = FacesMaterials::find($item);
-                    $re = Helper::CheckMaterial($_material->material_id, ($_quantity * $_material->quantity));
-                    if ($re != null)
-                        $errors[] = $re;
-                }
-            }
-            // print($errors[0]["material_name"]);die();
-            if (!isset($errors[0]['material_name'])) {
-                $salesitem = array(
-                    "prodid" => $request->product_id,
-                    "sales_id" => $request->sales_id,
-                    "quantity" => 0,
-                    "totel" => 0,
-                    "created_by" => Auth::user()->name,
-                    "descripe" => $request->descripe
-                );
-                $faces = array();
-                $material = array();
-
+            $face_item = ProductFaces::where("product_id", $request->product_id)->get();
+            $_product = Product::find($request->product_id);
+            $roles = array();
+            $massege = array();
+            if (count($face_item) > 0) {
                 foreach ($face_item as $val) {
                     if ($_product->type == 2) {
-                        $salesitem['count'] = $request->count;
-                        $salesitem['quantity'] += $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
-                        $salesitem["totel"] += ($_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']])) * $_POST['price' . $val['id']] * $request->count;
+                        $roles['count' . $val['id']] = "required";
+                        $roles['face_material' . $val['id']] = "required";
+                        $roles['height' . $val['id']] = "required|numeric|min:0|max:9999999";
+                        $roles['width' . $val['id']] = "required|numeric|min:0|max:9999999";
+                        $massege['count' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
+                        $massege['face_material' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
+                        $massege['height' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
+                        $massege['width' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
                     } elseif ($_product->type == 0) {
-                        $salesitem['count'] = $request->count;
-                        $salesitem['quantity'] += $_POST['quantity' . $val['id']] * $request->count;
-                        $salesitem["totel"] += $_POST['quantity' . $val['id']] * $request->count * $_POST['price' . $val['id']];
-                    } elseif ($_product->type == 1) {
-                        $salesitem['count'] = $request->count;
-                        $salesitem['quantity'] += $request->count;
-                        $salesitem["totel"] += $request->count * $_POST['price' . $val['id']];
+                        $roles['quantity' . $val['id']] = "required|min:0|max:9999999";
+                        $massege['quantity' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
                     }
+                    $roles['price' . $val['id']] = "required|numeric|min:0|max:9999999";
+                    $massege['price' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
                 }
 
-                $sales_item_id = SalesItem::create($salesitem)->id;
-
+                $roles['count'] = "required|integer|numeric|min:1|max:9999999";
+                $massege["count.required"] = "لايمكن ترك هذا الحقل فارغ";
+                $request->validate($roles, $massege);
+                $errors = array();
                 foreach ($face_item as $val) {
-                    if ($_product->type == 2) {
-                        $q = $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
-                        $faces = array(
-                            "height" => $_POST['height' . $val['id']],
-                            "width" => $_POST["width" . $val['id']],
-                            "count" => $_POST['count' . $val['id']],
-                            "Item_id" => $sales_item_id,
-                            "face_id" => $val['id'],
-                            "quantity" => $q,
-                            "price" => $_POST['price' . $val['id']] * $q
-                        );
-                    } elseif ($_product->type == 0) {
-                        $q = $_POST['quantity' . $val['id']] * $request->count;
-                        $faces = array(
-
-                            "count" => $request->count,
-                            "Item_id" => $sales_item_id,
-                            "face_id" => $val['id'],
-                            "quantity" => $q,
-                            "price" => $_POST['price' . $val['id']] * $q
-                        );
-                    } elseif ($_product->type == 1) {
-                        $q = $request->count;
-                        $faces = array(
-                            "count" => $request->count,
-                            "Item_id" => $sales_item_id,
-                            "face_id" => $val['id'],
-                            "quantity" => $q,
-                            "price" => $_POST['price' . $val['id']] * $q
-                        );
-                    }
-
-
-                    $id = SalesItemFace::create($faces)->id;
-
+                    if ($_product->type == 2)
+                        $_quantity = $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
+                    elseif ($_product->type == 0)
+                        $_quantity = $_POST['quantity' . $val["id"]] * $request->count;
+                    elseif ($_product->type == 1)
+                        $_quantity = $request->count;
                     foreach ($_POST['face_material' . $val['id']] as $item) {
-
-                        $_pord = FacesMaterials::find($item);
-
-                        $material = array(
-                            "quantity" => $faces['quantity'] * $_pord->quantity,
-                            "material_id" => $_pord->material_id,
-                            "item_material_id" => $id,
-                            "id" => $item
-                        );
-
-                        Helper::CancelQuantity($material["material_id"], $material["quantity"]);
-
-                        SalesItemFaceMaterial::create([
-                            "material_id" => $material['id'],
-                            "item_face_id" => $material["item_material_id"]
-                        ]);
+                        $_material = FacesMaterials::find($item);
+                        $re = Helper::CheckMaterial($_material->material_id, ($_quantity * $_material->quantity));
+                        if ($re != null)
+                            $errors[] = $re;
                     }
-                    if (isset($_POST['face_tool' . $val['id']])) {
-                        foreach ($_POST['face_tool' . $val['id']] as $to) {
-                            Helper::InsertToolItem($to, $q, $sales_item_id);
+                }
+                // print($errors[0]["material_name"]);die();
+                if (!isset($errors[0]['material_name'])) {
+                    $salesitem = array(
+                        "prodid" => $request->product_id,
+                        "sales_id" => $request->sales_id,
+                        "quantity" => 0,
+                        "totel" => 0,
+                        "created_by" => Auth::user()->name,
+                        "descripe" => $request->descripe
+                    );
+                    $faces = array();
+                    $material = array();
+
+                    foreach ($face_item as $val) {
+                        if ($_product->type == 2) {
+                            $salesitem['count'] = $request->count;
+                            $salesitem['quantity'] += $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
+                            $salesitem["totel"] += ($_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']])) * $_POST['price' . $val['id']] * $request->count;
+                        } elseif ($_product->type == 0) {
+                            $salesitem['count'] = $request->count;
+                            $salesitem['quantity'] += $_POST['quantity' . $val['id']] * $request->count;
+                            $salesitem["totel"] += $_POST['quantity' . $val['id']] * $request->count * $_POST['price' . $val['id']];
+                        } elseif ($_product->type == 1) {
+                            $salesitem['count'] = $request->count;
+                            $salesitem['quantity'] += $request->count;
+                            $salesitem["totel"] += $request->count * $_POST['price' . $val['id']];
                         }
                     }
+
+                    $sales_item_id = SalesItem::create($salesitem)->id;
+
+                    foreach ($face_item as $val) {
+                        if ($_product->type == 2) {
+                            $q = $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
+                            $faces = array(
+                                "height" => $_POST['height' . $val['id']],
+                                "width" => $_POST["width" . $val['id']],
+                                "count" => $_POST['count' . $val['id']],
+                                "Item_id" => $sales_item_id,
+                                "face_id" => $val['id'],
+                                "quantity" => $q,
+                                "price" => $_POST['price' . $val['id']] * $q
+                            );
+                        } elseif ($_product->type == 0) {
+                            $q = $_POST['quantity' . $val['id']] * $request->count;
+                            $faces = array(
+                                "count" => $request->count,
+                                "Item_id" => $sales_item_id,
+                                "face_id" => $val['id'],
+                                "quantity" => $q,
+                                "price" => $_POST['price' . $val['id']] * $q
+                            );
+                        } elseif ($_product->type == 1) {
+                            $q = $request->count;
+                            $faces = array(
+                                "count" => $request->count,
+                                "Item_id" => $sales_item_id,
+                                "face_id" => $val['id'],
+                                "quantity" => $q,
+                                "price" => $_POST['price' . $val['id']] * $q
+                            );
+                        }
+
+
+                        $id = SalesItemFace::create($faces)->id;
+
+                        foreach ($_POST['face_material' . $val['id']] as $item) {
+
+                            $_pord = FacesMaterials::find($item);
+                            $meta = rawmaterials::find($_pord->material_id);
+
+                            $quantity_product = $meta->material_type == 3?ceil($faces['quantity']):$faces['quantity'];
+
+                            $material = array(
+                                "quantity" => $quantity_product * $_pord->quantity,
+                                "material_id" => $_pord->material_id,
+                                "item_material_id" => $id,
+                                "id" => $item
+                            );
+
+                            Helper::CancelQuantity($material["material_id"], $material["quantity"]);
+
+                            SalesItemFaceMaterial::create([
+                                "material_id" => $material['id'],
+                                "item_face_id" => $material["item_material_id"]
+                            ]);
+                        }
+                        if (isset($_POST['face_tool' . $val['id']])) {
+                            foreach ($_POST['face_tool' . $val['id']] as $to) {
+                                Helper::InsertToolItem($to, $q, $sales_item_id);
+                            }
+                        }
+                    }
+                    return response()->json(["success" => 1, "error" => 0]);
+                } else {
+                    return response()->json(["success" => 0, "error" => 1, $errors]);
                 }
-                return response()->json(["success" => 1, "error" => 0]);
             } else {
-                return response()->json(["success" => 0, "error" => 1, $errors]);
+                return response()->json(["error" => "يجب اضافة بعض الاوجه ليصبح المنتج متاح للبيع "], 423);
             }
         } else {
-            return response()->json(["error" => "يجب اضافة بعض الاوجه ليصبح المنتج متاح للبيع "], 423);
+            return response()->json(["error" => "الفاتورة مغلقة"], 423);
         }
-    }else{
-        return response()->json(["error" => "الفاتورة مغلقة"], 423);
-
-    }
     }
 
     public function ToReceive($id)

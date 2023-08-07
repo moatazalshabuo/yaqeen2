@@ -50,7 +50,9 @@ class WorkItemController extends Controller
         foreach ($user_list as $value) {
             $ids[] = $value->user_id;
         }
-        $user_select = User::whereNotIn("id", $ids)->get();
+        $user_select = User::whereNotIn("id", $ids)->
+        join('salary_users','salary_users.user_id','=','users.id')
+        ->get();
 
         return response()->json(["user_list" => $user_list, "user_select" => $user_select]);
     }
@@ -111,11 +113,11 @@ class WorkItemController extends Controller
 
     public function getMyWork()
     {
-        $work = WorkUser::query()->select('sales_items.descripe', "products.name","users.name as username", "work_users.*")
+        $work = WorkUser::query()->select('sales_items.descripe', "products.name", "users.name as username", "work_users.*")
             ->join("sales_items", "sales_items.id", "=", "work_users.sales_id")
             ->join('products', "products.id", "=", "sales_items.prodid")
-            ->join('users',"users.id","=","work_users.user_id");
-            if(Auth::user()->type == 0)
+            ->join('users', "users.id", "=", "work_users.user_id");
+        if (Auth::user()->type == 0)
             $work->where(["work_users.user_id" => Auth::id()]);
         $work = $work->whereNotIN("work_users.status", [0, 3])->get();
         return view("work/our_work", compact('work'));
@@ -132,7 +134,7 @@ class WorkItemController extends Controller
             ->join("product_faces", "product_faces.id", "=", "item_face.face_id")
             ->where("item_face.Item_id", $id)->get();
         $works = WorkUser::select("users.name", "work_users.*")->join("users", "users.id", "=", "work_users.user_id")
-            ->where("sales_id", $item->id)->get();
+            ->where(["sales_id" => $item->id])->get();
 
         $ids = array();
         foreach ($faces as $val) {
@@ -162,11 +164,11 @@ class WorkItemController extends Controller
     {
 
         $work = WorkUser::find($id);
-        $price = SalesItem::find($work->sales_id)->totel;
+        $price = SalesItem::find($work->sales_id);
         $work->update([
             "status" => 3,
         ]);
-        Helper::count_salary($work->user_id,$price);
+        Helper::count_salary($work->user_id, $price);
         $work2 = WorkUser::where(["sales_id" => $work->sales_id, "status" => 0])->orderBy("order")->first();
         if ($work2) {
             $work2->update([

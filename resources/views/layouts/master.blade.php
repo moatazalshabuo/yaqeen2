@@ -81,8 +81,7 @@
                                         <p class="text-danger" id=price_pay_err></p>
                                     </div>
                                     ملاحظات(اختياري)
-                                    <textarea rows="6" cols="6" class="form-control" name="descrip" placeholder="ملاحظات ....">
-                     </textarea>
+                                    <textarea rows="6" cols="6" class="form-control" name="descrip" placeholder="ملاحظات ...."></textarea>
                                     <small>{{ Auth::user()->name }}</small>
                                 </div>
                                 <div class="col-md-6">
@@ -112,6 +111,142 @@
                 </div>
             </div>
             <!-- Modal: modalCart -->
+            <!--  نهاية الموديل متاع ايصال القبض -->
+            <div class="modal" id="modaldemo17">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">سداد قيمة مورد</h6><button aria-label="Close" class="close"
+                                data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <!-- Select2 -->
+                            <form id="form-pay-custom">
+                                {{-- @csrf --}}
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label> رقم الفاتورة المشتريات </label>
+                                            <input type="text" name="pur_bill" id="pur_bill"
+                                                class="form-control">
+                                            <input type="hidden" id="purbill_no_id">
+
+                                        </div>
+                                        <p class="text-danger" id='bill_custom_err'></p>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <button type="button" class="mt-4 btn btn-primary" id="get_purbill">
+                                            <span class="spinner-border spinner-border-sm sp"
+                                                style="display: none"></span><span class="text">بحث</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <h5 class="message1">
+
+                                        </h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label>المورد</label>
+                                    <input type="text" disabled name="custom_name_recep" id="custom_name_recep"
+                                        class="form-control">
+                                    {{-- <input type="hidden" name="client_id_t" id="client_id_t"> --}}
+                                    <p id="custom_name_recep_err" class="text-danger"></p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>قيمة السداد</label>
+                                            <input type="number" name="custom_price_recep" id="custom_price_recep"
+                                                class="form-control">
+                                            <p class="text-danger" id="custom_price_error"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>المتبقي</label>
+                                            <input type="number" disabled id="custom_Residual" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>الخالص</label>
+                                            <input type="number" disabled id="custom_sincere" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>الاجمالي</label>
+                                            <input type="number" disabled id="custom_total" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- Select2 -->
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn ripple btn-primary" id="pay_custom" type="button"><span
+                                    class="spinner-border spinner-border-sm sp" style="display: none"></span><span
+                                    class="text">حفظ</span></button>
+                            <button type="button" class="btn btn-outline-primary"
+                                data-dismiss="modal">اغلاق</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="modeExchange">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header bg-primary text-withe">
+                            <h6 class="modal-title">ايصال صرف</h6><button aria-label="Close" class="close"
+                                data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <!-- Select2 -->
+                            <form id="form-pay-custom">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>بيان الايصال</label>
+                                            <input type="text" name="descripe_exc" id="descripe_exc"
+                                                class="form-control">
+                                            <input type="hidden" id="descripe_exc">
+
+                                        </div>
+                                        <p class="text-danger" id='descripe_exc_err'></p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>القيمة</label>
+                                            <input type="number" name="price" id="price_exc"
+                                                class="form-control">
+                                            {{-- <input type="hidden" رid="price_exc_err"> --}}
+
+                                        </div>
+                                        <p class="text-danger" id='price_exc_err'></p>
+                                    </div>
+
+                                </div>
+                                <hr>
+
+
+                            </form>
+                            <!-- Select2 -->
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn ripple btn-primary" id="exchange_send" type="button"><span
+                                    class="spinner-border spinner-border-sm sp" style="display: none"></span><span
+                                    class="text">حفظ</span></button>
+                            <button type="button" class="btn btn-outline-primary"
+                                data-dismiss="modal">اغلاق</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             @include('layouts.sidebar')
             @include('layouts.models')
@@ -149,17 +284,17 @@
                     client_select()
 
                     function select_client(id, bill = 0) {
-                        axios.get("{{ route('client_pay', '') }}/" + id).then((res)=>{
+                        axios.get("{{ route('client_pay', '') }}/" + id).then((res) => {
                             if (res != "") {
                                 console.log(res)
-                                    var data = res.data
-                                    $("#sincere_pay").val(parseFloat(data.sincere))
-                                    $("#Residual_pay").val(parseFloat(data.Residual))
-                                    $("#total_pay").val(parseFloat(data.total))
-                                    $("#bill_num_pay").html(data.salesbill)
-                                } else {
-                                    reset_form_pay()
-                                }
+                                var data = res.data
+                                $("#sincere_pay").val(parseFloat(data.sincere))
+                                $("#Residual_pay").val(parseFloat(data.Residual))
+                                $("#total_pay").val(parseFloat(data.total))
+                                $("#bill_num_pay").html(data.salesbill)
+                            } else {
+                                reset_form_pay()
+                            }
                         })
                     }
 

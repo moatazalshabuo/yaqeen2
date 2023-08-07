@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\FacesMaterials;
+use App\Models\rawmaterials;
 use App\Models\Salesbill;
 use App\Models\SalesCnc;
 use App\Models\SalesItem;
@@ -58,7 +59,9 @@ class SalesItemController extends Controller
 
                     $_pord = FacesMaterials::where("face_id", $item->face_id)->get();
                     foreach ($_pord as $val) {
-                        $quantity = $item->quantity * $val->quantity;
+                        $meta = rawmaterials::find($val->material_id);
+                        $quantity_dele = $meta->material_type == 3?ceil($item->quantity):$item->quantity;
+                        $quantity =  $quantity_dele * $val->quantity;
                         $material_id = $val->material_id;
                         Helper::AddQuantity($material_id, $quantity);
                     }

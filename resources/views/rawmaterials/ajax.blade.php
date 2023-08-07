@@ -119,11 +119,15 @@
         $("#hisba_type,#hisba_type_e").change(function(){
             if($(this).val() == 1){
                 $(".hiegth-div, .width-div").show()
+                $('#hipa_type1').text("الطول في القطعة الواحدة")
             }else if($(this).val() == 2){
                 $(".hiegth-div, .width-div").hide()
                 $(".hiegth-div").show()
+                $('#hipa_type1').text("الطول في القطعة الواحدة")
             }else{
                 $(".hiegth-div, .width-div").hide()
+                $(".hiegth-div").show()
+                $('#hipa_type1').text("العدد في القطعة ")
             }
         })
         $(document).on("click", ".edit_mate", function() {
@@ -142,11 +146,17 @@
                         $(".hiegth-div, .width-div").show();
                         $("#hiegth_e").val(parseFloat(res['hiegth']))
                         $("#width_e").val(parseFloat(res['width']))
+                        $('#hipa_type2').text("الطول في القطعة الواحدة")
                     }else if($("#hisba_type_e").val() == 2){
                         $(".hiegth-div, .width-div").hide()
+                        $("#hiegth_e").val(parseFloat(res['hiegth']))
                         $(".hiegth-div").show()
+                        $('#hipa_type2').text("الطول في القطعة الواحدة")
                     }else{
                         $(".hiegth-div, .width-div").hide()
+                        $("#hiegth_e").val(parseFloat(res['hiegth']))
+                        $(".hiegth-div").show()
+                        $('#hipa_type2').text("العدد في القطعة ")
                     }
                 }
             })

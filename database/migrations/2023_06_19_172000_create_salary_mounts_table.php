@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('salary_mounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("salary_users")->constrained("salary_users");
+            $table->foreignId("salary_users")->constrained("salary_users")->cascadeOnDelete();
             $table->string("mount");
             $table->string("user_name");
             $table->float("salary");

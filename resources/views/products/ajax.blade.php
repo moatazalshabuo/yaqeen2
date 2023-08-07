@@ -226,17 +226,21 @@
                                     <div class="media-body">
                                         <div class="media-body">
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-2">
                                                     <h6 class="tx-15 mb-2">${data[i].title} </h6>
                                                 </div>
-                                                <div class="col-md-6 d-flex">
+                                                <div class="col-md-8 d-flex">
                                                     <div class="form-group">
                                                         <label class="text-muted">التكلفة</label>
-                                                        <input type="number" class="form-control cost"  data-id="" value='${coust}'>
+                                                        <input type="number" class="form-control cost" id='coust-${data[i].id}'  data-id="" value='${coust}'>
+                                                    </div>
+                                                    <div class="form-group mx-1">
+                                                        <label class="text-muted">النسبة</label>
+                                                        <input type="number" class="form-control ratio" data-id="${data[i].id}">
                                                     </div>
                                                     <div class="form-group mx-1">
                                                         <label class="text-muted">السعر</label>
-                                                        <input type="number" class="form-control price" value='${data[i].price}' data-id="${data[i].id}">
+                                                        <input type="number" class="form-control price" id='price-${data[i].id}' value='${data[i].price}' data-id="${data[i].id}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
@@ -535,6 +539,13 @@
             var leng = $("#length").val() != ""?$("#length").val():1;
             var width = $("#width").val() != ""?$("#width").val():1;
             $("#quantity-face").val(leng * width)
+        })
+
+        $(document).on('keyup',".ratio",function(){
+            var coust = parseFloat($('#coust-'+$(this).data('id')).val())
+            console.log((parseFloat($(this).val())/100))
+            var price = parseInt(((parseFloat($(this).val())/100)*coust)+coust)
+            $("#price-"+$(this).data('id')).val(price || 0)
         })
     })
 </script>

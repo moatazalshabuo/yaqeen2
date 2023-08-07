@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pay_receipt', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
-            $table->foreignId("client_id")->constrained("c_lints");
+            $table->foreignId("client_id")->constrained("c_lints")->cascadeOnDelete();
             $table->double("price",15, 2);
             $table->string("created_by");
             $table->timestamps();

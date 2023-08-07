@@ -19,8 +19,8 @@ return new class extends Migration
             $table->double("descont",15, 4)->default(0);
             $table->double("totel",15, 4)->nullable();
             $table->double('price',15,4);
-            $table->foreignId("rawmati")->constrained("rawmaterials");
-            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("rawmati")->constrained("rawmaterials")->cascadeOnDelete();
+            $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
             $table->timestamps();
         });
     }

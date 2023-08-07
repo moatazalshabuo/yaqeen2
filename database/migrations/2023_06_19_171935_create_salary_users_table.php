@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('salary_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
             $table->integer("type_salary");
             $table->float("rate")->nullable();
             $table->float("salary")->nullable();

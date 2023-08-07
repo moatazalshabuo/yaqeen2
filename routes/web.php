@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\clientsController;
 use App\Http\Controllers\CncToolsController;
+use App\Http\Controllers\coustomersController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchasesController;
@@ -30,6 +32,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware("auth");
 
+Route::get('/account', [App\Http\Controllers\HomeController::class, 'account'])->name('account')->middleware(['auth']);
+
 
 Route::resource('rawmaterials',RawmaterialsController::class)->middleware(['can:عرض المواد الخام']);
 
@@ -43,3 +47,5 @@ Route::resource("toolMaterial",ToolMaterialsController::class)->middleware(["can
 
 Route::get('/pages/{page}', [AdminController::class, 'index']);
 
+Route::resource('customers', coustomersController::class)->middleware(['auth']);
+Route::resource('clients', clientsController::class)->middleware(['auth']);

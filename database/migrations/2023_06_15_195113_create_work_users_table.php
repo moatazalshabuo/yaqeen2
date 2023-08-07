@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('work_users', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
-            $table->foreignId("sales_id")->constrained("sales_items");
-            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("sales_id")->constrained("sales_items")->cascadeOnDelete();
+            $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
             $table->integer("order");
             $table->integer("status")->default(0);
             $table->text("message")->nullable();

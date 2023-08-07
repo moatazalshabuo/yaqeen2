@@ -80,7 +80,7 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         if (isset($request->password)) {
-            $user = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
         }
         $user->update();
         $permission = Permission::all();

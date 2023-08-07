@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sales_cncs', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
-            $table->foreignId("cnc_id")->constrained("tool_materials");
+            $table->foreignId("cnc_id")->constrained("tool_materials")->cascadeOnDelete();
             $table->foreignId('sales_id')->constrained("salesbills")->onDelete('cascade');
             $table->string("descripe",50)->nullable();
             $table->double("quantity",15, 4);

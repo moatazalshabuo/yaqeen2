@@ -24,18 +24,18 @@ class RawmaterialsController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $rouls =[
+        $rouls = [
             'material_name' => 'required|unique:rawmaterials|max:255',
             // 'material_type' => 'required',
             'hisba_type' => 'required',
             'quantity' => 'required',
             'price' => 'required',
+            "hiegth" => "required"
         ];
 
         $message = [
@@ -48,32 +48,28 @@ class RawmaterialsController extends Controller
             "hiegth.required" => "يجب ادخال الطول"
         ];
 
-        if(isset($request->hisba_type) && $request->hisba_type == 1){
+        if (isset($request->hisba_type) && $request->hisba_type == 1) {
             $rouls['hiegth'] = "required";
             $rouls["width"] = "required";
-        }elseif(isset($request->hisba_type) && $request->hisba_type == 1){
-            $rouls['hiegth'] = "required";
         }
 
         $validtiondata = $request->validate(
-           $rouls ,
+            $rouls,
             $message
         );
-        if($request->hisba_type == 3){
-            $pace_price = $request->price;
-        }else{
-            $pace_price = $request->price / ($request->hiegth * $request->width);
-        }
-        $hiegth = (isset($request->hiegth))?$request->hiegth:1;
-        $width = (isset($request->width))?$request->width:1;
+
+        $pace_price = $request->price / ($request->hiegth * $request->width);
+
+        $hiegth = (isset($request->hiegth)) ? $request->hiegth : 1;
+        $width = (isset($request->width)) ? $request->width : 1;
         rawmaterials::create([
             'material_name' => $request->material_name,
             'material_type' => $request->hisba_type,
             'quantity' => $request->quantity,
-            "hiegth"=>$hiegth,
-            "width"=>$width,
+            "hiegth" => $hiegth,
+            "width" => $width,
             'price' => $request->price,
-            "pace_price"=>$pace_price,
+            "pace_price" => $pace_price,
             'created_by' => (auth()->user()->name),
         ]);
         session()->flash('Add', 'تم اضافة المادة بنجاح');
@@ -108,6 +104,7 @@ class RawmaterialsController extends Controller
             'hisba_type' => 'required',
             'quantity' => 'required|numeric|max:9999999|min:0|',
             'price' => 'required|numeric|max:9999999|min:0',
+            'hiegth' => "required",
         ];
         $message = [
             'material_name.required' => 'يرجى ادخال اسم المادة',
@@ -118,24 +115,21 @@ class RawmaterialsController extends Controller
 
         ];
 
-        if(isset($request->hisba_type) && $request->hisba_type == 1){
+        if (isset($request->hisba_type) && $request->hisba_type == 1) {
             $rouls['hiegth'] = "required";
             $rouls["width"] = "required";
-        }elseif(isset($request->hisba_type) && $request->hisba_type == 1){
-            $rouls['hiegth'] = "required";
         }
-
         $validtiondata = $request->validate(
-           $rouls ,
+            $rouls,
             $message
         );
-        if($request->hisba_type == 3){
-            $pace_price = $request->price;
-        }else{
-            $pace_price = $request->price / ($request->hiegth * $request->width);
-        }
-        $hiegth = (isset($request->hiegth))?$request->hiegth:1;
-        $width = (isset($request->width))?$request->width:1;
+
+
+
+        $hiegth = (isset($request->hiegth)) ? $request->hiegth : 1;
+        $width = (isset($request->width)) ? $request->width : 1;
+
+        $pace_price = $request->price / ($hiegth * $width);
 
         $rawmaterials = rawmaterials::find($request->id);
         $rawmaterials->material_name = $request->material_name;
@@ -150,11 +144,11 @@ class RawmaterialsController extends Controller
 
     public function delete($id)
     {
-        if(Purchasesitem::where('rawmati',$id)->count() == 0){
+        if (Purchasesitem::where('rawmati', $id)->count() == 0) {
             rawmaterials::find($id)->delete();
-            session()->flash('Add','تم الحذف المادة بنجاح');
-        }else{
-            session()->flash('Add','لا يمكن حذف ماده موجوده في فاتورة مشتريات');
+            session()->flash('Add', 'تم الحذف المادة بنجاح');
+        } else {
+            session()->flash('Add', 'لا يمكن حذف ماده موجوده في فاتورة مشتريات');
         }
         return redirect("/rawmaterials");
     }
@@ -162,7 +156,7 @@ class RawmaterialsController extends Controller
     public function getoldprice($id)
     {
         $material = rawmaterials::find($id);
-        $data = array("price"=>$material->price,"quantity"=>$material->quantity);
+        $data = array("price" => $material->price, "quantity" => $material->quantity);
         echo json_encode($data);
     }
 }

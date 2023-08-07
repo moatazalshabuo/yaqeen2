@@ -189,10 +189,16 @@ class ProductController extends Controller
             "quantity" => "يجب ادخال كمية الاستهلاك"
         ]);
         foreach ($request->material as $val) {
+            $mate = rawmaterials::find($val);
+            if($mate->material_type == 3){
+                $quantity = $request->quantity/$mate->hiegth;
+            }else{
+                $quantity = $request->quantity / ($mate->hiegth * $mate->width);
+            }
             FacesMaterials::create([
                 'face_id' => $request->face,
                 "material_id" => $val,
-                "quantity" => $request->quantity
+                "quantity" => $quantity
             ]);
         }
     }

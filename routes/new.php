@@ -11,6 +11,7 @@ use App\Http\Controllers\Products;
 use App\Http\Controllers\PurchasesbillController;
 use App\Http\Controllers\PurchasesitemController;
 use App\Http\Controllers\RawmaterialsController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SalesbillController;
 use App\Http\Controllers\SalesItemController;
@@ -55,7 +56,7 @@ Route::get("get-item-mate", function () {
         } else {
             echo "بالقطعة";
         }
-        echo "</td><td>" . floatval($dates->quantity) . " </td>
+        echo "</td><td>" . floatval($dates->quantity) . " - " . floatval($dates->quantity()) . " </td>
             <td>" . floatval($dates->price) . "</td>
             <td>" . floatval($dates->pace_price) . "</td>
             <td>$dates->created_by </td>";
@@ -238,7 +239,7 @@ Route::controller(WorkItemController::class)->group(function () {
 
 Route::controller(UsersController::class)->group(function () {
     Route::prefix("users")->group(function () {
-        Route::middleware(['auth',"can:عرض المستخدمين"])->group(function () {
+        Route::middleware(['auth', "can:عرض المستخدمين"])->group(function () {
             Route::get("index", "index")->name("users.index");
             Route::get("create", "create")->name("users.create");
             Route::post('store', "store")->name("users.store");
@@ -251,7 +252,7 @@ Route::controller(UsersController::class)->group(function () {
 
 Route::controller(SalaryController::class)->group(function () {
     Route::prefix("salary")->group(function () {
-        Route::middleware(['auth',"can:محاسب"])->group(function () {
+        Route::middleware(['auth', "can:محاسب"])->group(function () {
             Route::get("/", "index")->name("salary");
             Route::post("save", "save_salary")->name("salary.save");
             Route::get("get/{id}", "getData")->name("salary.get");
@@ -277,5 +278,41 @@ Route::controller(ExchangeController::class)->group(function () {
     Route::prefix("exchsnge")->group(function () {
         Route::post('exchnge_receipt', "pay")->name("Exchange_receipt");
         Route::post('exchnge-exc', "pay1")->name("Exchange-exc");
+    });
+});
+
+Route::controller(ReportsController::class)->group(function () {
+    Route::prefix('reports')->group(function () {
+        Route::get('rawmaterial', 'RawmaterialReports')->name("reports.rawmaterial");
+        Route::post('rawm-search', "search_raw")->name("reports.raw.search");
+        // sales reborts
+
+        Route::get('sales', "sales_index")->name("reports.sales");
+        Route::post('sales-search', "search_sales")->name("reports.sales.search");
+
+        // sales reborts
+
+        Route::get('purchases', "pur_index")->name("reports.pur");
+        Route::post('pur-search', "search_pur")->name("reports.pur.search");
+
+        // sales reborts
+
+        Route::get('product', "product_index")->name("reports.product");
+        Route::post('product-search', "search_product")->name("reports.product.search");
+    });
+});
+
+Route::prefix("clint")->group(function () {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('index', [CLintController::class, "clint_index"])->name("clint_index");
+        Route::post('search', [CLintController::class, "search_clint"])->name("search_clint");
+        Route::get("client_select", [CLintController::class, "client_select"])->name("client_select");
+    });
+});
+
+Route::prefix("custom")->group(function () {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('index', [CustomerController::class, "cust_index"])->name("cust_index");
+        Route::post('search', [CustomerController::class, "search_cust"])->name("search_cust");
     });
 });

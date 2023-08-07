@@ -124,8 +124,9 @@
                     <p class="card-title"> {{ $item->name }} - <span> العدد {{ $item->count }} </span> -
                         <span>{{ $item->descripe }}</span>
                     </p>
-                    @if ($item->user_id == Auth::id())
-                        <div class="float-left">
+
+                    <div class="float-left">
+                        @if ($work->user_id == Auth::id())
                             @if ($work->status == 1)
                                 <button data-id="{{ $work->id }}" class="start btn btn-success m-2">
                                     بداء العمل
@@ -140,8 +141,8 @@
                             @else
                                 العمل مكتمل
                             @endif
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -210,17 +211,17 @@
                 </div>
                 <div class="card-footer p-2">
                     <div class="row">
-                        @can("اعطاء امر عمل")
-                        <div class="col-md-12">
-                            <ul id="progressbar">
-                                @foreach ($works as $work_item)
-                                    <li class="@if ($work_item->status == 2) active @elseif($work_item->status == 3) succ @endif"
-                                        id="account">
-                                        <span>{{ $work_item->order }}</span><strong>{{ $work_item->name }}</strong>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
+                        @can('اعطاء امر عمل')
+                            <div class="col-md-12">
+                                <ul id="progressbar">
+                                    @foreach ($works as $work_item)
+                                        <li class="@if ($work_item->status == 2) active @elseif($work_item->status == 3) succ @endif"
+                                            id="account">
+                                            <span>{{ $work_item->order }}</span><strong>{{ $work_item->name }}</strong>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         @endcan
                     </div>
                 </div>
@@ -256,13 +257,13 @@
         $(".cancel").click(function() {
             var id = $(this).data("id")
             Swal.fire({
-                title: '؟هل انت متاكد ',
-                text: "من انك تريد الغاء العمل!",
+                title: 'هل انت متاكد ؟',
+                text: "من انك تريد الغاء العمل",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'موافق!'
+                confirmButtonText: 'موافق'
             }).then((result) => {
                 if (result.isConfirmed) {
                     location.replace(`/start-work/cancel-work/${id}`)
@@ -272,13 +273,13 @@
         $(".end").click(function() {
             var id = $(this).data("id")
             Swal.fire({
-                title: '؟هل انت متاكد ',
-                text: "من انهيت العمل!",
+                title: ' هل انت متاكد؟',
+                text: " انهيت العمل",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'موافق!'
+                confirmButtonText: 'موافق'
             }).then((result) => {
                 if (result.isConfirmed) {
                     location.replace(`/start-work/end-work/${id}`)

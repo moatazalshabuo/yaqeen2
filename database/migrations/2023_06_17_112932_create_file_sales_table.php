@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('file_sales', function (Blueprint $table) {
             $table->id();
             $table->string("file_name");
-            $table->foreignId("sales_id")->constrained("sales_items");
+            $table->foreignId("sales_id")->constrained("sales_items")->cascadeOnDelete();
             $table->timestamps();
         });
     }

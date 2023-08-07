@@ -16,7 +16,7 @@
 			type:"get",
 			success:function(e){
 				$data = JSON.parse(e)
-				$("#total").val(Math.ceil($data['total']))
+				$("#total").val(Math.ceil($data['totel']))
 				$("#sincere").val(parseFloat($data['sincere']))
 				$("#Residual").val(parseFloat($data['Residual']))
 				$("tbody").html($data['tbody'])

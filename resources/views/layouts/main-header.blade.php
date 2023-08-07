@@ -12,11 +12,11 @@
 							<a class="open-toggle" href="#"><i class="header-icon fe fe-align-left" ></i></a>
 							<a class="close-toggle" href="#"><i class="header-icons fe fe-x"></i></a>
 						</div>
-						<div class="main-header-center mr-3 d-sm-none d-md-none d-lg-block">
+						{{-- <div class="main-header-center mr-3 d-sm-none d-md-none d-lg-block">
 							<input class="form-control" placeholder="Search for anything..." type="search"> <button class="btn"><i class="fas fa-search d-none d-md-block"></i></button>
-						</div>
+						</div> --}}
 					</div>
-					<div class="main-header-right">
+					{{-- <div class="main-header-right">
 						<ul class="nav">
 							<li class="">
 								<div class="dropdown  nav-itemd-none d-md-flex">
@@ -263,7 +263,7 @@
 									<a class="dropdown-item" href=""><i class="bx bxs-inbox"></i>Inbox</a>
 									<a class="dropdown-item" href=""><i class="bx bx-envelope"></i>Messages</a>
 									<a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i> Account Settings</a>
-									
+
 									<a class="dropdown-item" href="{{ route('logout') }}"
 									onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i
 									class="bx bx-log-out"></i>تسجيل خروج</a>
@@ -281,7 +281,7 @@
 								</a>
 							</div>
 						</div>
-					</div>
+					</div> --}}
 				</div>
 			</div>
 <!-- /main-header -->

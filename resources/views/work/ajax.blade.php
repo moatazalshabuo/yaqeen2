@@ -88,7 +88,6 @@
 
         $(".active-work").click(function() {
             var id = $(this).attr('id')
-
             Swal.fire({
                 title: 'هل انت متأكد?',
                 text: "تريد تفعيل هذه المهمه!",
@@ -103,6 +102,5 @@
                 }
             })
         })
-
     })
 </script>

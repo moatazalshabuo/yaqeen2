@@ -110,7 +110,7 @@
                                     <th class="border-bottom-0">نوع الكمية</th>
                                     <th class="border-bottom-0">كمية المخزون</th>
                                     <th class="border-bottom-0">السعر</th>
-                                    <th class="border-bottom-0">سعر القطعة</th>
+                                    <th class="border-bottom-0">سعر الوحدة</th>
                                     <th>المستخدم</th>
                                     <th class="border-bottom-0">العمليات</th>
 
@@ -155,7 +155,7 @@
                                         <select name="hisba_type" id="hisba_type" class="form-control">
                                             <option value="">حدد نوع الكمية</option>
                                             <option value="1">متر مربع</option>
-                                            <option value="2">متر</option>
+                                            <option value="2"> لتر / متر</option>
                                             <option value="3">قطعة</option>
                                         </select>
                                     </div>
@@ -164,15 +164,16 @@
                                 <div class="col-md-6 width-div" style="display: none">
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1">العرض</label>
-                                        <input type="number" class="form-control m2" id="width" placeholder="طول القطعة" name="width"
+                                        <input type="number" class="form-control m2" value="1" id="width" placeholder="طول القطعة" name="width"
                                             required>
                                     </div>
                                     <div class="text text-danger error_add" id="error_width"></div>
                                 </div>
                                 <div class="col-md-6 hiegth-div" style="display: none">
                                     <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">الطول</label>
-                                        <input type="number" class="form-control m2" id="hiegth" placeholder="طول القطعة" name="hiegth"
+                                        <label id="hipa_type1">الطول</label>
+
+                                        <input type="number" class="form-control m2" id="hiegth" placeholder="" name="hiegth"
                                             required>
                                     </div>
                                     <div class="text text-danger error_add" id="error_hiegth"></div>
@@ -225,7 +226,7 @@
                                         <label for="exampleInputEmail1">اسم المادة</label>
                                         <input type="text" class="form-control" id="material_name_e"
                                             name="material_name" required>
-                                            <input type="text" class="form-control" id="id_e"
+                                            <input type="hidden" class="form-control" id="id_e"
                                             name="id" required>
                                     </div>
                                     <div class="text text-danger error_edit" id="error_material_name_e"></div>
@@ -252,7 +253,7 @@
                                 </div>
                                 <div class="col-md-6 hiegth-div" style="display: none">
                                     <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">الطول</label>
+                                        <label id="hipa_type2">الطول</label>
                                         <input type="number" class="form-control m2" id="hiegth_e" placeholder="طول القطعة" name="hiegth"
                                             required>
                                     </div>
