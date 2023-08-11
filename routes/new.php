@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CLintController;
 use App\Http\Controllers\CncToolsController;
+use App\Http\Controllers\ControlMaterialController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\PayController;
@@ -314,5 +315,16 @@ Route::prefix("custom")->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('index', [CustomerController::class, "cust_index"])->name("cust_index");
         Route::post('search', [CustomerController::class, "search_cust"])->name("search_cust");
+    });
+});
+
+Route::controller(ControlMaterialController::class)->group(function(){
+    Route::prefix("cm")->group(function(){
+        Route::middleware(['auth',"can:اضافة مادة خام"])->group(function(){
+            Route::get("add","index_add")->name("add.cm");
+            Route::get("min","index_min")->name("min.cm");
+            Route::post("store","store")->name("cm.store");
+            Route::delete("/{id}","destroy")->name("cm.destroy");
+        });
     });
 });

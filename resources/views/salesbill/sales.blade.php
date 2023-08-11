@@ -26,7 +26,6 @@
 
 @empty(!$data)
     @section('num')
-
     @endsection
     @section('page-header')
         <input type="hidden" id="salesbill" value="{{ $data->id }}">
@@ -34,7 +33,8 @@
         <div class="row mt-2">
             <div class="btn-group">
 
-                <button type="button" class="btn btn-warning  btn-icon ml-2" id="refresh"><i class="mdi mdi-refresh"></i></button>
+                <button type="button" class="btn btn-warning  btn-icon ml-2" id="refresh"><i
+                        class="mdi mdi-refresh"></i></button>
                 <a type="button" class="btn btn-primary btn-icon ml-1"
                     @if ($first && $data->id != $first) href='{{ route('salesbill', $first) }}' @else disabled @endif>
                     << </a>
@@ -178,12 +178,10 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-lg-10 col-md-10">
                 <div class="card card-primary">
                     <div class="card-header">
-
 
                     </div>
                     <div class="card-body" style="height: 330px;overflow-y:scroll">
@@ -236,8 +234,6 @@
                 </div>
             </div>
         </div>
-
-
         <!-- row closed -->
         </div>
         </div>
@@ -284,7 +280,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal" id="salesbill-model" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content modal-content-demo">
@@ -341,10 +336,8 @@
             </div>
         </div>
     @endsection
-
     @section('js')
         <script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}"></script>
-
         @include('salesbill/ajax')
     @endsection
 @endempty

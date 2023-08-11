@@ -48,4 +48,5 @@ Route::resource("toolMaterial",ToolMaterialsController::class)->middleware(["can
 Route::get('/pages/{page}', [AdminController::class, 'index']);
 
 Route::resource('customers', coustomersController::class)->middleware(['auth']);
+
 Route::resource('clients', clientsController::class)->middleware(['auth']);

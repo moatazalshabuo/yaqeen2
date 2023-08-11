@@ -130,15 +130,23 @@ class SalesbillController extends Controller
 
     public function StroeSales(Request $request)
     {
-        $sales = Salesbill::find($request->sales_id);
-        if ($sales->status == 1) {
 
+        // دالة حفظ بيع المنتج
+        // اول شي احضار بيانات الفاتورة
+        $sales = Salesbill::find($request->sales_id);
+
+        // التحقق من ان الفاتورة مفتوحة
+        if ($sales->status == 1) {
+            // احضار اوجه المنتج
             $face_item = ProductFaces::where("product_id", $request->product_id)->get();
+            // احضار بيانات المنتج
             $_product = Product::find($request->product_id);
             $roles = array();
             $massege = array();
+            // التحقق من ان المنتج له اوجه او لا
             if (count($face_item) > 0) {
                 foreach ($face_item as $val) {
+                    // بعدها اذا كان المنتج يحسب بالمتر المربع اضافة التحقق لحقوله
                     if ($_product->type == 2) {
                         $roles['count' . $val['id']] = "required";
                         $roles['face_material' . $val['id']] = "required";
@@ -149,6 +157,7 @@ class SalesbillController extends Controller
                         $massege['height' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
                         $massege['width' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
                     } elseif ($_product->type == 0) {
+                    // هنا مش متر مربع يكون يا اما متر او بالقطعة
                         $roles['quantity' . $val['id']] = "required|min:0|max:9999999";
                         $massege['quantity' . $val['id'] . ".required"] = "لايمكن ترك الحقل فارغ";
                     }
@@ -160,7 +169,10 @@ class SalesbillController extends Controller
                 $massege["count.required"] = "لايمكن ترك هذا الحقل فارغ";
                 $request->validate($roles, $massege);
                 $errors = array();
+
+                // خاصة بحساب كمية الاجمالية
                 foreach ($face_item as $val) {
+
                     if ($_product->type == 2)
                         $_quantity = $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
                     elseif ($_product->type == 0)
@@ -174,7 +186,9 @@ class SalesbillController extends Controller
                             $errors[] = $re;
                     }
                 }
+
                 // print($errors[0]["material_name"]);die();
+                // التحقق من كميات المواد الخام
                 if (!isset($errors[0]['material_name'])) {
                     $salesitem = array(
                         "prodid" => $request->product_id,
@@ -187,6 +201,7 @@ class SalesbillController extends Controller
                     $faces = array();
                     $material = array();
 
+                    // التخزين الخاصة بعنصر المبيعات
                     foreach ($face_item as $val) {
                         if ($_product->type == 2) {
                             $salesitem['count'] = $request->count;
