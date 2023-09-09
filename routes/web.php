@@ -35,13 +35,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/account', [App\Http\Controllers\HomeController::class, 'account'])->name('account')->middleware(['auth']);
 
 
-Route::resource('rawmaterials',RawmaterialsController::class)->middleware(['can:عرض المواد الخام']);
+Route::resource('rawmaterials',RawmaterialsController::class)->middleware(['can:عرض المواد الخام','auth']);
 
-Route::resource('products',ProductController::class)->middleware(["can:عرض المنتجات"]);
+Route::resource('products',ProductController::class)->middleware(["can:عرض المنتجات",'auth']);
 
-Route::resource("cnc-tools",CncToolsController::class)->middleware(["can:عرض cnc"]);
+Route::resource("cnc-tools",CncToolsController::class)->middleware(["can:عرض cnc",'auth']);
 
-Route::resource("toolMaterial",ToolMaterialsController::class)->middleware(["can:عرض cnc"]);
+Route::resource("toolMaterial",ToolMaterialsController::class)->middleware(["can:عرض cnc",'auth']);
 
 // Route::resource("salesbill",SalesbillController::class);
 

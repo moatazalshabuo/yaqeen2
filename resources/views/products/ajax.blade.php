@@ -236,7 +236,7 @@
                                                     </div>
                                                     <div class="form-group mx-1">
                                                         <label class="text-muted">النسبة</label>
-                                                        <input type="number" class="form-control ratio" data-id="${data[i].id}">
+                                                        <input type="number" class="form-control ratio" id='ratio-${data[i].id}' value='${data[i].ratio}' data-id="${data[i].id}">
                                                     </div>
                                                     <div class="form-group mx-1">
                                                         <label class="text-muted">السعر</label>
@@ -270,7 +270,7 @@
                                         <div class="media-body">
                                             <div class="row">
                                                 <div class="col-md-10">
-                                                    <h6 class="tx-15 mb-2">${data[i].title} - ${data[i].material_name} - كمية الاستهلاك ${data[i].quantity}</h6>
+                                                    <h6 class="tx-15 mb-2">${data[i].title} - ${data[i].material_name} - كمية الاستهلاك ${(data[i].material_type == 3)?(data[i].quantity*data[i].hiegth) + "<small>قطعة</small>":data[i].quantity + '<small>متر</small>'}</h6>
                                                 </div>
 
                                                 <div class="col-md-2">
@@ -502,6 +502,7 @@
                 axios.post("{{ route('price.store') }}", {
                     "_token": "{{ csrf_token() }}",
                     "price": $(`.price:eq(${i})`).val(),
+                    'ratio':$(`.ratio:eq(${i})`).val(),
                     "id": $(`.price:eq(${i})`).data(`id`)
                 }).then(function(res) {
                     if (i == $('.price').length) {
@@ -544,7 +545,7 @@
         $(document).on('keyup',".ratio",function(){
             var coust = parseFloat($('#coust-'+$(this).data('id')).val())
             console.log((parseFloat($(this).val())/100))
-            var price = parseInt(((parseFloat($(this).val())/100)*coust)+coust)
+            var price = ((parseFloat($(this).val())/100)*coust)+coust
             $("#price-"+$(this).data('id')).val(price || 0)
         })
     })

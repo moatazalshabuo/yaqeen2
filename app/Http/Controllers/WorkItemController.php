@@ -50,7 +50,7 @@ class WorkItemController extends Controller
         foreach ($user_list as $value) {
             $ids[] = $value->user_id;
         }
-        $user_select = User::whereNotIn("id", $ids)->
+        $user_select = User::whereNotIn("users.id", $ids)->
         join('salary_users','salary_users.user_id','=','users.id')
         ->get();
 

@@ -174,9 +174,9 @@ class SalesbillController extends Controller
                 foreach ($face_item as $val) {
 
                     if ($_product->type == 2)
-                        $_quantity = $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
+                        $_quantity = $_POST['count' . $val['id']] * (($_POST["height" . $val['id']] / 1000) * ($_POST["width" . $val['id']]  / 1000)) * $request->count;
                     elseif ($_product->type == 0)
-                        $_quantity = $_POST['quantity' . $val["id"]] * $request->count;
+                        $_quantity = ($_POST['quantity' . $val["id"]] / 1000) * $request->count;
                     elseif ($_product->type == 1)
                         $_quantity = $request->count;
                     foreach ($_POST['face_material' . $val['id']] as $item) {
@@ -205,12 +205,12 @@ class SalesbillController extends Controller
                     foreach ($face_item as $val) {
                         if ($_product->type == 2) {
                             $salesitem['count'] = $request->count;
-                            $salesitem['quantity'] += $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
-                            $salesitem["totel"] += ($_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']])) * $_POST['price' . $val['id']] * $request->count;
+                            $salesitem['quantity'] += $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] / 1000 * $_POST["width" . $val['id']] / 1000) * $request->count;
+                            $salesitem["totel"] += ($_POST['count' . $val['id']] * ($_POST["height" . $val['id']] / 1000 * $_POST["width" . $val['id']] / 1000)) * $_POST['price' . $val['id']] * $request->count;
                         } elseif ($_product->type == 0) {
                             $salesitem['count'] = $request->count;
-                            $salesitem['quantity'] += $_POST['quantity' . $val['id']] * $request->count;
-                            $salesitem["totel"] += $_POST['quantity' . $val['id']] * $request->count * $_POST['price' . $val['id']];
+                            $salesitem['quantity'] += $_POST['quantity' . $val['id']] / 1000 * $request->count;
+                            $salesitem["totel"] += $_POST['quantity' . $val['id']] / 1000 * $request->count * $_POST['price' . $val['id']];
                         } elseif ($_product->type == 1) {
                             $salesitem['count'] = $request->count;
                             $salesitem['quantity'] += $request->count;
@@ -222,10 +222,10 @@ class SalesbillController extends Controller
 
                     foreach ($face_item as $val) {
                         if ($_product->type == 2) {
-                            $q = $_POST['count' . $val['id']] * ($_POST["height" . $val['id']] * $_POST["width" . $val['id']]) * $request->count;
+                            $q = $_POST['count' . $val['id']] * (($_POST["height" . $val['id']] / 1000) * ($_POST["width" . $val['id']]  / 1000)) * $request->count;
                             $faces = array(
-                                "height" => $_POST['height' . $val['id']],
-                                "width" => $_POST["width" . $val['id']],
+                                "height" => $_POST['height' . $val['id']] / 1000,
+                                "width" => $_POST["width" . $val['id']] / 1000,
                                 "count" => $_POST['count' . $val['id']],
                                 "Item_id" => $sales_item_id,
                                 "face_id" => $val['id'],
@@ -233,7 +233,7 @@ class SalesbillController extends Controller
                                 "price" => $_POST['price' . $val['id']] * $q
                             );
                         } elseif ($_product->type == 0) {
-                            $q = $_POST['quantity' . $val['id']] * $request->count;
+                            $q = ($_POST['quantity' . $val['id']] / 1000) * $request->count;
                             $faces = array(
                                 "count" => $request->count,
                                 "Item_id" => $sales_item_id,

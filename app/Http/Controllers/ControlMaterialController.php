@@ -45,8 +45,13 @@ class ControlMaterialController extends Controller
         ]);
         $raw = rawmaterials::find($request->raw_id);
 
-
-        $quantity = $request->quantity / ($raw->hiegth * $raw->width);
+        if($raw->material_type == 1){
+            $quantity = ($request->quantity/(1000*1000)) / ($raw->hiegth * $raw->width);
+        }elseif($raw->material_type == 3){
+            $quantity = $request->quantity / ($raw->hiegth * $raw->width);
+        }else{
+            $quantity = ($request->quantity/1000) / ($raw->hiegth * $raw->width);
+        }
 
         if ($request->type == 0 && $raw->quantity < $quantity) {
 

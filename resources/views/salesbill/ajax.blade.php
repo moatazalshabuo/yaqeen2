@@ -10,7 +10,6 @@
             if ($(this).val() != "")
                 axios.get(`{{ route('product.information', '') }}/${$(this).val()}`).then(function(
                     res) {
-
                     product = res.data.product
                     face = res.data.face
                     material = res.data.material
@@ -43,13 +42,14 @@
                                 </div>
                                 `
                         }
-                        html += `<div class="col-md-2">
+                        html += `<div class="col-md-3">
                                     <label>التكلفة</label>
                                     <input type="number" class="form-control" id="cout${face[i].id}" disabled>
-                                </div>
-                                <div class="col-md-2">
+                                    <input type='hidden' name="ratio" value='${face[i].ratio}' id="ratio-${face[i].id}">
+                                    </div>
+                                <div class="col-md-1">
                                     <label>السعر</label>
-                                    <input type="number" name="price${face[i].id}" class="form-control count-totel" data-face='${face[i].id}' id="price${face[i].id}" value="${face[i].price}" >
+                                    <input type="number" name="price${face[i].id}" class="form-control count-totel" data-face='${face[i].id}' id="price${face[i].id}" value="${(face[i].price)}" >
                                 </div>
                                 <div class="col-md-12  mt-3">
                                     <div class="row">`
@@ -80,8 +80,8 @@
                     }
                     $("#content-form").html(html)
                     $("#salesbill-model").modal('show')
-                    CountPrice()
                     CountCoust()
+                    CountPrice()
                 }).catch(function(res) {
                     console.log(res)
                 })
@@ -159,11 +159,13 @@
             var coust = 0;
             var tcount = ($(`#count`).val() != undefined) ? $(`#count`).val() : 1;
             for (var i of face) {
-                var height = ($(`#height${i.id}`).val() != undefined) ? $(`#height${i.id}`).val() : 0;
-                var width = ($(`#width${i.id}`).val() != undefined) ? $(`#width${i.id}`).val() : 0;
+                var height = ($(`#height${i.id}`).val() != undefined) ? $(`#height${i.id}`).val()/1000 : 0;
+                var width = ($(`#width${i.id}`).val() != undefined) ? $(`#width${i.id}`).val()/1000 : 0;
                 var count = ($(`#count${i.id}`).val() != undefined) ? $(`#count${i.id}`).val() : 0;
-                totel += ((height * width) * count) * $(`#price${i.id}`).val()
-                coust += ((height * width) * count) * $(`#cout${i.id}`).val()
+                totel += ((height * width) * count) * ((parseFloat($(`#cout${i.id}`).val() * (parseFloat($(`#ratio-${i.id}`).val())/100)) + parseFloat($(`#cout${i.id}`).val())))
+                coust += ((height * width) * count) * parseFloat($(`#cout${i.id}`).val())
+                // $(`#ratio-${i.id}`).val(i.ratio)
+                // console.log((parseFloat($(`#cout${i.id}`).val() * (parseFloat($(`#ratio-${i.id}`).val())/100)) + parseFloat($(`#cout${i.id}`).val())))
             }
             $("#price").val(totel * tcount)
             $("#coust").val(coust * tcount)

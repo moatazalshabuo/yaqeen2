@@ -300,7 +300,7 @@
                                                         <div class="fme text-danger" id="fme-material"></div>
                                                     </div>
                                                     <div class="col-md-6 mg-b-20 mg-lg-b-0">
-                                                        <p class="mg-b-10">الكمية للمتر </p>
+                                                        <p class="mg-b-10"> كمية الاستهلاك <small>للمتر / القطعة</small></p>
                                                         <input type="number" name="quantity" id="quantity-face"
                                                             step="any" class="form-control" placeholder="الكمية">
                                                         <div class="fme text-danger" id="fme-quantity"></div>

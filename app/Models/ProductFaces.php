@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class ProductFaces extends Model
 {
     use HasFactory;
-    protected $fillable = ["id","title","product_id","price"];
+    protected $fillable = ["id","title","product_id","price",'ratio'];
     protected $table = "product_faces";
 
     public static function Material($id){
@@ -20,7 +20,7 @@ class ProductFaces extends Model
     }
 
     public static function get_with_cost($id){
-        return ProductFaces::select("product_faces.id","product_faces.title","product_faces.price",
+        return ProductFaces::select("product_faces.id","product_faces.title","product_faces.price",'product_faces.ratio',
         DB::raw("sum((rawmaterials.pace_price * faces_materials.quantity) ) as coust_material"),
         DB::raw("sum(tool_materials.price) as coust_tool"))
         ->leftJoin("faces_materials","faces_materials.face_id","=","product_faces.id")->

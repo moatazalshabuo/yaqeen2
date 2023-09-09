@@ -157,7 +157,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        $material = ProductFaces::select("rawmaterials.material_name", "faces_materials.*", "product_faces.title")
+        $material = ProductFaces::select("rawmaterials.material_name",'rawmaterials.hiegth',"rawmaterials.width",'rawmaterials.material_type', "faces_materials.*", "product_faces.title")
             ->join("faces_materials", "faces_materials.face_id", "=", "product_faces.id")->join("rawmaterials", "rawmaterials.id", "=", "faces_materials.material_id")
             ->where("product_faces.product_id", $product->id)->get();
 
@@ -191,9 +191,11 @@ class ProductController extends Controller
         foreach ($request->material as $val) {
             $mate = rawmaterials::find($val);
             if($mate->material_type == 3){
-                $quantity = $request->quantity/$mate->hiegth;
+                $quantity = intval($request->quantity)/$mate->hiegth;
+            }elseif ($mate->material_type == 1) {
+                $quantity = ($request->quantity/(1000*1000)) / ($mate->hiegth * $mate->width);
             }else{
-                $quantity = $request->quantity / ($mate->hiegth * $mate->width);
+                $quantity = ($request->quantity/1000) / ($mate->hiegth * $mate->width);
             }
             FacesMaterials::create([
                 'face_id' => $request->face,
@@ -238,7 +240,8 @@ class ProductController extends Controller
     public function StorePrice(Request $request)
     {
         ProductFaces::find($request->id)->update([
-            "price" => $request->price
+            "price" => $request->price,
+            'ratio'=>$request->ratio
         ]);
     }
 }
